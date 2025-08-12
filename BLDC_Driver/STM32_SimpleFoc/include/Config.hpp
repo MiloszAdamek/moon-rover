@@ -4,11 +4,11 @@
 namespace AppConfig {
 
 struct MotorConfig {
-  // Piny PWM i EN
-  uint8_t pwm_u, pwm_v, pwm_w;
-  uint8_t en_u, en_v, en_w;
+  // Piny PWM L i H
+  uint8_t pwm_u_l, pwm_v_l, pwm_w_l;
+  uint8_t pwm_u_h, pwm_v_h, pwm_w_h;
 
-  // SPI3
+ // SPI3
   uint8_t spi3_mosi, spi3_miso, spi3_sck, spi3_cs;
 
   // Enkoder AS5048A

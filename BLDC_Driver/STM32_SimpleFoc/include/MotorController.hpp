@@ -4,6 +4,7 @@
 #include <SimpleFOC.h>
 #include <SimpleFOCDrivers.h>
 #include "Config.hpp"
+#include "pinmap_custom.h"
 
 class MotorController {
 public:
@@ -18,6 +19,8 @@ public:
   void setTarget(float rad_s);
   float getTarget() const { return motor.target; }
 
+  void getAngle(float& angle);
+  
 private:
   const AppConfig::MotorConfig config;
 
@@ -29,7 +32,8 @@ private:
 
   // Obiekty SimpleFOC
   BLDCMotor motor;
-  BLDCDriver3PWM driver;
+  // BLDCDriver3PWM driver;
+  BLDCDriver6PWM driver;
   LowsideCurrentSense current_sense;
   MagneticSensorSPI sensor;
 

@@ -1,15 +1,14 @@
 #include "MotorController.hpp"
+#include "pinmap_custom.h"
 
 MotorController* MotorController::instance = nullptr;
 
 MotorController::MotorController(const AppConfig::MotorConfig& cfg)
   : config(cfg),
     motor(cfg.pole_pairs, cfg.phase_resistance, cfg.kv_rating),
-    driver(cfg.pwm_u, cfg.pwm_v, cfg.pwm_w, cfg.en_u, cfg.en_v, cfg.en_w),
+    driver(cfg.pwm_u_h, cfg.pwm_u_l, cfg.pwm_v_h, cfg.pwm_v_l, cfg.pwm_w_h, cfg.pwm_w_l),
     current_sense(cfg.shunt_resistance, cfg.amp_gain, cfg.curr_u, cfg.curr_v, cfg.curr_w),
     sensor(cfg.spi3_cs, cfg.bit_resolution, cfg.angle_register),
-    // Uwaga: jeżeli Twój core wymaga jawnego wyboru peryferium, użyj wersji:
-    // SPIClass spi3(SPI3, cfg.spi3_mosi, cfg.spi3_miso, cfg.spi3_sck);
     spi3(cfg.spi3_mosi, cfg.spi3_miso, cfg.spi3_sck),
     command(Serial)
 {
@@ -23,7 +22,7 @@ void MotorController::begin() {
   // ENCODER
   spi3.begin();
   sensor.init(&spi3);
-  motor.linkSensor(&sensor);
+  // motor.linkSensor(&sensor);
   Serial.println("Sensor initialized.");
 
   // DRIVER
@@ -42,7 +41,7 @@ void MotorController::begin() {
   Serial.println("Current sense initialized.");
 
   // MOTOR
-  motor.controller = MotionControlType::velocity;
+  motor.controller = MotionControlType::velocity_openloop;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
   motor.init();
 
@@ -57,7 +56,7 @@ void MotorController::begin() {
   motor.current_limit = config.current_limit;
 
   // PID - torque -> Id, Iq
-
+ 
   // Q axis
   motor.PID_current_q.P = config.pid_iq_p;                        
   motor.PID_current_q.I = config.pid_iq_i;                        
@@ -149,4 +148,9 @@ void MotorController::onModeCmd(char* cmd) {
 
 void MotorController::feedCommand(char* cmdString) {
   command.run(cmdString);
+}
+
+void MotorController::getAngle(float& angle) {
+  sensor.update(); // Aktualizacja sensora
+  angle = sensor.getAngle();
 }

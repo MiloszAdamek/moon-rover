@@ -22,7 +22,7 @@ void MotorController::begin() {
   // ENCODER
   spi3.begin();
   sensor.init(&spi3);
-  // motor.linkSensor(&sensor);
+  motor.linkSensor(&sensor);
   Serial.println("Sensor initialized.");
 
   // DRIVER
@@ -41,7 +41,7 @@ void MotorController::begin() {
   Serial.println("Current sense initialized.");
 
   // MOTOR
-  motor.controller = MotionControlType::velocity_openloop;
+  motor.controller = MotionControlType::velocity;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
   motor.init();
 
@@ -150,7 +150,7 @@ void MotorController::feedCommand(char* cmdString) {
   command.run(cmdString);
 }
 
-void MotorController::getAngle(float& angle) {
-  sensor.update(); // Aktualizacja sensora
-  angle = sensor.getAngle();
-}
+// void MotorController::getAngle(float& angle) {
+//   sensor.update(); // Aktualizacja sensora
+//   angle = sensor.getAngle();
+// }

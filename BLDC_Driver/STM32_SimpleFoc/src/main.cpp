@@ -1,24 +1,26 @@
-#include "MotorController.hpp"
-#include "Config.hpp"
-#include "DriverSPI.hpp"
-#include "spi1_hal_init.hpp"
+// #include "MotorController.hpp"
+// #include "Config.hpp"
+// // #include "DriverSPI.hpp"
+// // #include "spi1_hal_init.hpp"
+// #include "pinmap_custom.h"
+// #include "SimpleCAN.h"
+// #include "PingPongCANProfile.h"
 
-MotorController foc(AppConfig::BoardConfig);
-float current_angle = 0.0f;
+// MotorController foc(AppConfig::BoardConfig);
+// float current_angle = 0.0f;
 
-void setup() {
+// SimpleCan* can = CreateCanLib(PB9, PB8);  // TX, RX (ESC1: PB9=TX, PB8=RX)
 
-    foc.begin();
-    Serial.println("MotorController initialized.");
-}
+// void setup() {
 
-void loop() {
+//     foc.begin();
+//     Serial.println("MotorController initialized.");
+// }
 
-    // foc.update();
-    // foc.runCommand();
-    // foc.getAngle(current_angle);
-    // Serial.print("Current angle: "); 
-    // Serial.println(foc.getTarget() * 180.0f / PI); // rad to degrees
+// void loop() {
 
-}
+//     foc.update();
+//     foc.runCommand();
+
+// }
 

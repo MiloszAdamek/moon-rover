@@ -19,7 +19,7 @@ public:
   void setTarget(float rad_s);
   float getTarget() const { return motor.target; }
 
-  void getAngle(float& angle);
+  // void getAngle(float& angle);
   
 private:
   const AppConfig::MotorConfig config;

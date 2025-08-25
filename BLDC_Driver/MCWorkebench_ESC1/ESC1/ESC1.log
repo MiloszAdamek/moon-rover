@@ -1,0 +1,260 @@
+2025-08-24 21:06:18,940 DEBUG [WB_to_MX.lambda$run_gui_mode$0] Arguments: [-mx_timeout, -1, -pack, assets/MotorControlPack/MotorControl.zip, -exp, templates/wb-defines_where_and_what.txt, -ftl, templates/wb_ioc_template.ftl, -xdm, C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.wbdef, -ioc, C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.ioc]
+2025-08-24 21:06:18,942 DEBUG [ArgsValue.lambda$retrieve$2] CLI_ARG[ftl]: templates/wb_ioc_template.ftl
+2025-08-24 21:06:18,943 DEBUG [ArgsValue.lambda$retrieve$2] CLI_ARG[exp]: templates/wb-defines_where_and_what.txt
+2025-08-24 21:06:18,943 DEBUG [ArgsValue.lambda$retrieve$2] CLI_ARG[xdm]: C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.wbdef
+2025-08-24 21:06:18,944 DEBUG [ArgsValue.lambda$retrieve$2] CLI_ARG[ioc]: C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.ioc
+2025-08-24 21:06:18,944 DEBUG [ArgsValue.lambda$retrieve$2] CLI_ARG[pack]: assets/MotorControlPack/MotorControl.zip
+2025-08-24 21:06:18,945 DEBUG [ArgsValue.lambda$retrieve$2] CLI_ARG[mx_timeout]: -1
+2025-08-24 21:06:18,945 DEBUG [ArgsValue.retrieve] {xdm=C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.wbdef, updftl=templates/wb_ioc_mc-middleware.ftl, mx_timeout=-1, exp=templates/wb-defines_where_and_what.txt, ioc=C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.ioc, pack=assets/MotorControlPack/MotorControl.zip, ftl=templates/wb_ioc_template.ftl}
+2025-08-24 21:06:19,003 DEBUG [WB_to_MX.run] Targeted MCU family = G4
+2025-08-24 21:06:19,019 DEBUG [WB_to_MX.run] Minimum associated CubeMx to the `6.0.0-a0` targeted MCU family is `G4`
+2025-08-24 21:06:25,006 DEBUG [EnvironmentChecker.checkPack] STM32CubeMX.Version: 6.13.0-RC5
+2025-08-24 21:06:25,012 DEBUG [RetrieveFirmwareVersion.from_zip] Trying to read Firmware version from zipped version Pack: C:\Program Files (x86)\STMicroelectronics\MC_SDK_6.3.2\Utilities\PC_Software\STMCWB\assets\MotorControlPack\MotorControl.zip
+2025-08-24 21:06:25,072 DEBUG [RetrieveFirmwareVersion.minimum_supporte_version] minimum_supporte_version MotorControlFirmware.Version: 6.3.0
+2025-08-24 21:06:25,073 DEBUG [PackInfoFactory.deploy_MCPack_to_MxRepo] Deployment strategy class: VersionedFolderStyle_MCPackDeployer
+2025-08-24 21:06:25,073 DEBUG [PackInfoFactory.deploy_MCPack_to_MxRepo] Expected MC Pack 6.3.2-Full already deployed
+2025-08-24 21:06:25,106 DEBUG [DataSetUpdater.update] Updating data set
+2025-08-24 21:06:25,108 DEBUG [DataSetUpdater.update] Update done
+2025-08-24 21:06:25,108 INFO  [IocGenerator.logModulesVersionInfo] Version info: 
+2025-08-24 21:06:25,131 INFO  [IocGenerator.logModulesVersionInfo]   MC Workbench       : 6.3.2
+2025-08-24 21:06:25,131 INFO  [IocGenerator.logModulesVersionInfo]   WB_to_Mx           : 6.2.3.template-24-04-17
+2025-08-24 21:06:25,133 INFO  [IocGenerator.logModulesVersionInfo]   STM32CubeMX        : 6.13.0
+2025-08-24 21:06:25,135 INFO  [IocGenerator.logModulesVersionInfo]   MC Firmware Library: 6.3.2-Full
+2025-08-24 21:06:25,136 INFO  [IocGenerator.logModulesVersionInfo] 
+Generation options: 
+2025-08-24 21:06:25,137 INFO  [IocGenerator.logModulesVersionInfo]   Target Toolchain   : ST STM32CubeIDE
+2025-08-24 21:06:25,138 INFO  [IocGenerator.logModulesVersionInfo]   Target Driver      : HAL - Hardware Abstraction Layer
+2025-08-24 21:06:25,139 INFO  [IocGenerator.logModulesVersionInfo]   Target STM32 FW    : 1.6.0
+
+2025-08-24 21:06:25,141 DEBUG [IocGenerator.process] C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.ioc ioc file: Generating
+2025-08-24 21:06:25,143 DEBUG [IocGenerator.createOutput] Generating file from template templates\wb_ioc_template.ftl
+2025-08-24 21:06:26,668 DEBUG [IocGenerator.process] ioc file C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.ioc Generated
+2025-08-24 21:06:26,673 INFO  [LineInfo_to_exitCode.log_LineInfo] C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ESC1.ioc ioc: Generated
+2025-08-24 21:06:26,730 INFO  [Wb2MxProcess.lambda$copyFolder$e7a869af$1] Folder Copied: C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\ftl
+2025-08-24 21:06:26,789 INFO  [extSettings.lambda$writeContentToFile$f5919002$1] Generated C:\Projects\moon-rover\BLDC_Driver\MCWorkebench_ESC1\ESC1\.extSettings
+2025-08-24 21:06:26,795 INFO  [Wb2MxProcess.lambda$run$$19] 
+Started STM32CubeMX for final c-code generation
+2025-08-24 21:06:26,823 DEBUG [CubeMxRunner.create_code_generation_script_for] Generated CubeMx script file: C:\Users\Miloush\AppData\Local\Temp\WB_to_Mx-esc-7639506049239287247.script
+2025-08-24 21:06:28,112 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,108 [INFO] MicroXplorer:98 - [MX] MX Start == 3988054844609800
+2025-08-24 21:06:28,113 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,111 [INFO] MicroXplorer:653 - Detected Java Version = 21.0.3
+2025-08-24 21:06:28,123 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,121 [INFO] ApplicationProperties:184 - Using Application install path: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX
+2025-08-24 21:06:28,146 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,145 [INFO] DbMcusXml:78 - Set database path to: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX\\db\/mcu/
+2025-08-24 21:06:28,148 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,147 [INFO] ApiDb:274 - Set plugin database path to: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX\\db\/plugins/boardmanager/
+2025-08-24 21:06:28,155 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,155 [INFO] McuFinderGlobals:63 - Set McuFinder mode to 1 (CubeMX integrated)
+2025-08-24 21:06:28,168 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,168 [INFO] ApiDb:250 - Set database path to: C:\Users\Miloush\.stmcufinder\plugins\mcufinder//mcu/
+2025-08-24 21:06:28,170 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,170 [INFO] DbMcusAds:125 - Set database path to: C:\Users\Miloush\.stmcufinder\plugins\mcufinder//mcu/
+2025-08-24 21:06:28,212 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,211 [INFO] CrossReferenceDbSqlite:203 - Set database path to: C:\Users\Miloush\.stmcufinder\plugins\mcufinder//mcu/cs/
+2025-08-24 21:06:28,410 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,410 [INFO] RulesReader:64 - Compatibility file has been processed (297 Rules)
+2025-08-24 21:06:28,453 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,453 [INFO] STM32CubeMX:60 - Starting STM32CubeMX
+2025-08-24 21:06:28,942 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:28,942 [INFO] MainPanel:272 - HeapMemory: 71303168
+2025-08-24 21:06:29,159 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,159 [INFO] DbMcusXml:78 - Set database path to: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX\\db\/mcu/
+2025-08-24 21:06:29,160 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,159 [INFO] ApiDb:274 - Set plugin database path to: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX\\db\/plugins/boardmanager/
+2025-08-24 21:06:29,160 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,159 [INFO] ApiDb:261 - Set plugin images path to: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX\\db\/plugins/mcufinder/images/
+2025-08-24 21:06:29,161 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,161 [INFO] ApiDb:250 - Set database path to: C:\Users\Miloush\.stmcufinder\plugins\mcufinder//mcu/
+2025-08-24 21:06:29,163 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,161 [INFO] DbMcusAds:125 - Set database path to: C:\Users\Miloush\.stmcufinder\plugins\mcufinder//mcu/
+2025-08-24 21:06:29,164 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,162 [INFO] CrossReferenceDbSqlite:203 - Set database path to: C:\Users\Miloush\.stmcufinder\plugins\mcufinder//mcu/cs/
+2025-08-24 21:06:29,200 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,200 [INFO] ApplicationProperties:184 - Using Application install path: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX
+2025-08-24 21:06:29,202 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,202 [INFO] PluginManage:196 - Search for loadable plugins [exclusion list=, ]
+2025-08-24 21:06:29,205 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,205 [INFO] PluginManage:310 - Check plugin analytics
+2025-08-24 21:06:29,788 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,787 [INFO] AnalyticsPlugin:253 - Accepted Software Licenses: STM32CubeMX.6.13.0
+2025-08-24 21:06:29,788 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,788 [INFO] AnalyticsPlugin:255 - Accepted CMSIS Pack Licenses: 
+2025-08-24 21:06:29,789 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,788 [INFO] AnalyticsPlugin:257 - Accepted Firmware Licenses: FW.F4.1.28.0,FW.G4.1.6.0
+2025-08-24 21:06:29,793 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,792 [INFO] PluginManage:359 - Loaded plugin analytics (category:tool,tabindex:-1)
+2025-08-24 21:06:29,794 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,793 [INFO] PluginManage:310 - Check plugin cadmodel
+2025-08-24 21:06:29,840 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,839 [INFO] CADModel:105 - Init CAD model plugin
+2025-08-24 21:06:29,840 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,840 [INFO] PluginManage:359 - Loaded plugin cadmodel (category:power,tabindex:5)
+2025-08-24 21:06:29,841 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,840 [INFO] PluginManage:310 - Check plugin clock
+2025-08-24 21:06:29,856 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,856 [INFO] PluginManage:359 - Loaded plugin clock (category:base,tabindex:2)
+2025-08-24 21:06:29,857 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,856 [INFO] PluginManage:310 - Check plugin ddr
+2025-08-24 21:06:29,861 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,860 [INFO] PluginManage:359 - Loaded plugin ddr (category:tool,tabindex:6)
+2025-08-24 21:06:29,862 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:29,861 [INFO] PluginManage:310 - Check plugin filemanager
+2025-08-24 21:06:30,080 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,078 [INFO] PluginManage:359 - Loaded plugin filemanager (category:base,tabindex:10)
+2025-08-24 21:06:30,080 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,079 [INFO] PluginManage:310 - Check plugin ipmanager
+2025-08-24 21:06:30,093 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,093 [INFO] PluginManage:359 - Loaded plugin ipmanager (category:base,tabindex:5)
+2025-08-24 21:06:30,094 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,093 [INFO] PluginManage:310 - Check plugin lpbam
+2025-08-24 21:06:30,103 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,103 [INFO] PluginManage:359 - Loaded plugin lpbam (category:base,tabindex:0)
+2025-08-24 21:06:30,105 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,103 [INFO] PluginManage:310 - Check plugin memorymap
+2025-08-24 21:06:30,121 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,120 [INFO] PluginManage:359 - Loaded plugin memorymap (category:base,tabindex:4)
+2025-08-24 21:06:30,121 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,120 [INFO] PluginManage:310 - Check plugin pinoutandconfiguration
+2025-08-24 21:06:30,132 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,131 [INFO] PluginManage:359 - Loaded plugin pinoutandconfiguration (category:base,tabindex:1)
+2025-08-24 21:06:30,132 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,131 [INFO] PluginManage:310 - Check plugin pinoutconfig
+2025-08-24 21:06:30,541 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,541 [INFO] PluginManage:359 - Loaded plugin pinoutconfig (category:base,tabindex:0)
+2025-08-24 21:06:30,542 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,541 [INFO] PluginManage:310 - Check plugin power
+2025-08-24 21:06:30,557 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,556 [INFO] PluginManage:359 - Loaded plugin power (category:power,tabindex:4)
+2025-08-24 21:06:30,558 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,557 [INFO] PluginManage:310 - Check plugin projectmanager
+2025-08-24 21:06:30,676 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,675 [INFO] PluginManage:359 - Loaded plugin projectmanager (category:projectmanager,tabindex:4)
+2025-08-24 21:06:30,677 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,676 [INFO] PluginManage:310 - Check plugin rif
+2025-08-24 21:06:30,686 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,685 [INFO] PluginManage:359 - Loaded plugin rif (category:base,tabindex:3)
+2025-08-24 21:06:30,687 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,686 [INFO] PluginManage:310 - Check plugin thirdparty
+2025-08-24 21:06:30,909 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,908 [INFO] PluginManage:359 - Loaded plugin thirdparty (category:base,tabindex:-1)
+2025-08-24 21:06:30,910 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,909 [INFO] PluginManage:310 - Check plugin tools
+2025-08-24 21:06:30,911 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,909 [INFO] IntegrityCheckThread:86 - entering critical section [integrity check]
+2025-08-24 21:06:30,913 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,911 [INFO] ThirdPartyUpdaterWithRetryManager:70 - Updater plugin not ready yet. [1/15]
+2025-08-24 21:06:30,917 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,917 [INFO] PluginManage:359 - Loaded plugin tools (category:base,tabindex:7)
+2025-08-24 21:06:30,918 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:30,917 [INFO] PluginManage:310 - Check plugin tutovideos
+2025-08-24 21:06:31,155 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,155 [INFO] PluginManage:359 - Loaded plugin tutovideos (category:base,tabindex:-1)
+2025-08-24 21:06:31,155 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,155 [INFO] PluginManage:310 - Check plugin updater
+2025-08-24 21:06:31,192 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,192 [INFO] PluginManage:359 - Loaded plugin updater (category:base,tabindex:12)
+2025-08-24 21:06:31,193 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,192 [INFO] PluginManage:310 - Check plugin userauth
+2025-08-24 21:06:31,201 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,200 [INFO] UserAuth:118 - Init User Auth plugin
+2025-08-24 21:06:31,202 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,202 [INFO] PluginManage:359 - Loaded plugin userauth (category:base,tabindex:14)
+2025-08-24 21:06:31,203 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,203 [INFO] PluginManage:283 - PluginManage : Loaded plugins [18]
+2025-08-24 21:06:31,606 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,605 [INFO] PinOutPanel:1589 - setPackage(No Configuration,No Configuration)
+2025-08-24 21:06:31,737 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,737 [INFO] CADModel:165 - CPN selected for project level
+2025-08-24 21:06:31,738 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,737 [INFO] CADModel:114 - Register for checkConnection events
+2025-08-24 21:06:31,758 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,757 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,758 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,758 [INFO] PluginManager:220 - loadIPPluginJar : add adc
+2025-08-24 21:06:31,763 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,762 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,763 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,763 [INFO] PluginManager:220 - loadIPPluginJar : add aes
+2025-08-24 21:06:31,767 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,767 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,768 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,767 [INFO] PluginManager:220 - loadIPPluginJar : add can
+2025-08-24 21:06:31,770 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,770 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,771 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,770 [INFO] PluginManager:220 - loadIPPluginJar : add comp
+2025-08-24 21:06:31,774 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,773 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,774 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,774 [INFO] PluginManager:220 - loadIPPluginJar : add cryp
+2025-08-24 21:06:31,781 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,781 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,782 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,781 [INFO] PluginManager:220 - loadIPPluginJar : add ddr_ctrl_phy
+2025-08-24 21:06:31,785 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,785 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,785 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,785 [INFO] PluginManager:220 - loadIPPluginJar : add dfsdm
+2025-08-24 21:06:31,792 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,791 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,793 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,792 [INFO] PluginManager:220 - loadIPPluginJar : add dma
+2025-08-24 21:06:31,797 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,797 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,798 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,797 [INFO] PluginManager:220 - loadIPPluginJar : add dma3
+2025-08-24 21:06:31,801 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,800 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,801 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,801 [INFO] PluginManager:220 - loadIPPluginJar : add extmemmanager
+2025-08-24 21:06:31,805 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,803 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,805 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,803 [INFO] PluginManager:220 - loadIPPluginJar : add fatfs
+2025-08-24 21:06:31,811 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,810 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,812 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,810 [INFO] PluginManager:220 - loadIPPluginJar : add fmc
+2025-08-24 21:06:31,818 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,817 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,818 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,817 [INFO] PluginManager:220 - loadIPPluginJar : add freertos
+2025-08-24 21:06:31,820 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,820 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,820 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,820 [INFO] PluginManager:220 - loadIPPluginJar : add genericplugin
+2025-08-24 21:06:31,824 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,823 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,824 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,823 [INFO] PluginManager:220 - loadIPPluginJar : add gfxmmu
+2025-08-24 21:06:31,832 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,831 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,832 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,831 [INFO] PluginManager:220 - loadIPPluginJar : add gic
+2025-08-24 21:06:31,836 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,836 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,837 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,836 [INFO] PluginManager:220 - loadIPPluginJar : add gpio
+2025-08-24 21:06:31,840 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,839 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,840 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,840 [INFO] PluginManager:220 - loadIPPluginJar : add gtzc
+2025-08-24 21:06:31,844 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,843 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,845 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,843 [INFO] PluginManager:220 - loadIPPluginJar : add hash
+2025-08-24 21:06:31,849 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,848 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,849 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,848 [INFO] PluginManager:220 - loadIPPluginJar : add i2c
+2025-08-24 21:06:31,852 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,851 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,852 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,852 [INFO] PluginManager:220 - loadIPPluginJar : add i2s
+2025-08-24 21:06:31,855 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,855 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,856 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,855 [INFO] PluginManager:220 - loadIPPluginJar : add i3c
+2025-08-24 21:06:31,861 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,860 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,862 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,861 [INFO] PluginManager:220 - loadIPPluginJar : add ipddr
+2025-08-24 21:06:31,870 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,869 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,870 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,869 [INFO] PluginManager:220 - loadIPPluginJar : add linkedlist
+2025-08-24 21:06:31,873 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,873 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,874 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,873 [INFO] PluginManager:220 - loadIPPluginJar : add lorawan
+2025-08-24 21:06:31,876 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,875 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,876 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,876 [INFO] PluginManager:220 - loadIPPluginJar : add ltdc
+2025-08-24 21:06:31,888 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,885 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,888 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,886 [INFO] PluginManager:220 - loadIPPluginJar : add mdma
+2025-08-24 21:06:31,891 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,891 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,892 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,891 [INFO] PluginManager:220 - loadIPPluginJar : add nvic
+2025-08-24 21:06:31,897 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,896 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,897 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,897 [INFO] PluginManager:220 - loadIPPluginJar : add opamp
+2025-08-24 21:06:31,901 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,900 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,901 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,900 [INFO] PluginManager:220 - loadIPPluginJar : add openamp
+2025-08-24 21:06:31,904 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,904 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,905 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,904 [INFO] PluginManager:220 - loadIPPluginJar : add pdm2pcm
+2025-08-24 21:06:31,913 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,912 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,917 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,916 [INFO] PluginManager:220 - loadIPPluginJar : add plateformsettings
+2025-08-24 21:06:31,919 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,919 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,920 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,919 [INFO] PluginManager:220 - loadIPPluginJar : add quadspi
+2025-08-24 21:06:31,922 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,922 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,923 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,923 [INFO] PluginManager:220 - loadIPPluginJar : add radio
+2025-08-24 21:06:31,928 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,927 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,928 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,927 [INFO] PluginManager:220 - loadIPPluginJar : add resmgrutility
+2025-08-24 21:06:31,932 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,932 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,933 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,932 [INFO] PluginManager:220 - loadIPPluginJar : add sai
+2025-08-24 21:06:31,936 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,935 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,936 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,936 [INFO] PluginManager:220 - loadIPPluginJar : add spi
+2025-08-24 21:06:31,941 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,941 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,942 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,941 [INFO] PluginManager:220 - loadIPPluginJar : add stm32_wpan
+2025-08-24 21:06:31,944 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,944 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,946 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,944 [INFO] PluginManager:220 - loadIPPluginJar : add tim
+2025-08-24 21:06:31,950 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,950 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,951 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,950 [INFO] PluginManager:220 - loadIPPluginJar : add touchsensing
+2025-08-24 21:06:31,954 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,953 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,954 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,953 [INFO] PluginManager:220 - loadIPPluginJar : add tracer_emb
+2025-08-24 21:06:31,956 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,956 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,956 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,956 [INFO] PluginManager:220 - loadIPPluginJar : add ts
+2025-08-24 21:06:31,958 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,958 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,959 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,958 [INFO] PluginManager:220 - loadIPPluginJar : add tsc
+2025-08-24 21:06:31,962 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,962 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,963 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,962 [INFO] PluginManager:220 - loadIPPluginJar : add ucpd
+2025-08-24 21:06:31,966 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,965 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,966 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,966 [INFO] PluginManager:220 - loadIPPluginJar : add usart
+2025-08-24 21:06:31,970 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,970 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-08-24 21:06:31,970 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:31,970 [INFO] PluginManager:220 - loadIPPluginJar : add usbx
+2025-08-24 21:06:32,009 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:32,008 [INFO] Updater:1134 - Updater Version found : 6.13.0
+2025-08-24 21:06:32,031 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:32,030 [INFO] ApplicationProperties:184 - Using Application install path: C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeMX
+2025-08-24 21:06:33,658 ERROR [LineInfo_to_exitCode.log_LineInfo] Aug 24, 2025 9:06:33 PM java.util.prefs.WindowsPreferences <init>
+2025-08-24 21:06:33,660 WARN  [LineInfo_to_exitCode.log_LineInfo] WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0xffffffff80000002. Windows RegCreateKeyEx(...) returned error code 5.
+2025-08-24 21:06:33,915 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:33,914 [INFO] MainUpdater:2872 - connection check result : 10
+2025-08-24 21:06:33,917 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:33,916 [INFO] MainUpdater:289 - Updater Check For Update Now.
+2025-08-24 21:06:33,917 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:33,916 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.130
+2025-08-24 21:06:33,922 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:33,922 [INFO] ThirdPartyUpdaterWithRetryManager:70 - Updater plugin not ready yet. [2/15]
+2025-08-24 21:06:34,125 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,124 [INFO] RulesReader:64 - Compatibility file has been processed (297 Rules)
+2025-08-24 21:06:34,143 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,143 [INFO] RulesReader:64 - Compatibility file has been processed (297 Rules)
+2025-08-24 21:06:34,156 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,156 [INFO] CADModel:165 - CPN selected for project level
+2025-08-24 21:06:34,157 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,156 [INFO] CADModel:114 - Register for checkConnection events
+2025-08-24 21:06:34,230 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,230 [INFO] CheckServerUpdateThread:120 - End of CheckServer Thread
+2025-08-24 21:06:34,386 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,385 [INFO] CADModel:165 - CPN selected for project level
+2025-08-24 21:06:34,386 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,386 [INFO] CADModel:114 - Register for checkConnection events
+2025-08-24 21:06:34,482 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:34,482 [INFO] HomeAdPanel:106 - Auto-refresh data requested => check proxy status ongoing
+2025-08-24 21:06:35,242 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,241 [INFO] ServerAccessManage:473 - Download File 
+2025-08-24 21:06:35,247 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,246 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-08-24 21:06:35,255 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,255 [INFO] DbMcusAds:53 - JSON generation date=Tue Jul 08 10:14:23 CEST 2025 (1751962463582)
+2025-08-24 21:06:35,258 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,257 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-08-24 21:06:35,259 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,258 [INFO] HomeAdPanel:117 - Refresh advertisement image is successful
+2025-08-24 21:06:35,335 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,334 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-08-24 21:06:35,466 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:35,465 [INFO] DetailPanel:341 - Set advertising image to C:/Users/Miloush/STM32Cube/Repository/\en.2400x1350px.jpeg
+2025-08-24 21:06:36,003 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,003 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-08-24 21:06:36,221 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,221 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-08-24 21:06:36,222 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,221 [INFO] DetailPanel:341 - Set advertising image to C:/Users/Miloush/STM32Cube/Repository/\en.2400x1350px.jpeg
+2025-08-24 21:06:36,282 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,282 [INFO] ServerAccessManage:473 - Download File 
+2025-08-24 21:06:36,285 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,284 [INFO] LoadUrlFilesThread:185 - End of LoadServerUrlFiles without Thread
+2025-08-24 21:06:36,285 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,285 [INFO] ComparatorMD5DB:85 - Refresh file md5.xml
+2025-08-24 21:06:36,741 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,740 [INFO] MainFrame:202 - [MX] HOME_PANEL == 3988063484823900
+2025-08-24 21:06:36,747 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,747 [INFO] MainFrame:537 - Register for checkConnection events
+2025-08-24 21:06:36,749 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,748 [INFO] UserAuth:486 - Internet connection configuration mode: 1
+2025-08-24 21:06:36,774 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:36,773 [INFO] JxBrowserEngine:152 - Initiate JxBrowser Engine with user profile folder
+2025-08-24 21:06:37,117 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:37,117 [INFO] MicroXplorer:468 - Change Database Path : 
+2025-08-24 21:06:37,118 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:37,117 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.130
+2025-08-24 21:06:38,005 ERROR [LineInfo_to_exitCode.log_LineInfo] C:\Users\Miloush\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-STBOX1.2.1.0.pdsc: PDSC version is not supported
+2025-08-24 21:06:38,181 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:38,180 [INFO] WebApp:168 - Instantiating new browser for Auth
+2025-08-24 21:06:39,872 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,871 [INFO] WebApp:449 - Apply proxy settings
+2025-08-24 21:06:39,874 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,873 [INFO] WebApp:534 - Chromium requires no authentication
+2025-08-24 21:06:39,895 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,894 [INFO] WebApp:477 - Direct internet connection detected
+2025-08-24 21:06:39,989 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,988 [INFO] WebApp:880 - Register for checkConnection events
+2025-08-24 21:06:39,990 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,989 [INFO] WebApp:449 - Apply proxy settings
+2025-08-24 21:06:39,990 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,989 [INFO] WebApp:534 - Chromium requires no authentication
+2025-08-24 21:06:39,992 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:39,991 [INFO] WebApp:477 - Direct internet connection detected
+2025-08-24 21:06:40,146 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,146 [INFO] ThirdParty:978 - Integrity check success = true
+2025-08-24 21:06:40,147 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,146 [INFO] IntegrityCheckThread:100 - exiting critical section [integrity check]
+2025-08-24 21:06:40,147 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,146 [INFO] IntegrityCheckThread:103 - End integrity checks thread
+2025-08-24 21:06:40,148 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,146 [INFO] ThirdParty:873 - entering critical section [close project]
+2025-08-24 21:06:40,149 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,149 [INFO] ThirdParty:883 - exiting critical section [close project]
+2025-08-24 21:06:40,160 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,160 [INFO] PinOutPanel:1589 - setPackage(No Configuration,No Configuration)
+2025-08-24 21:06:40,213 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,212 [INFO] UtilMem:75 - Begin LoadConfig() Used Memory: 160125248 Bytes (322961408)
+2025-08-24 21:06:40,223 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,222 [INFO] MicroXplorer:468 - Change Database Path : 
+2025-08-24 21:06:40,224 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,223 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.130
+2025-08-24 21:06:40,224 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,223 [INFO] OpenFileManager:332 - Change cursor
+2025-08-24 21:06:40,271 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,270 [INFO] Mcu:2035 - Initializing MCU STM32G431C(6-8-B)Ux STM32G431CBUx 
+2025-08-24 21:06:40,439 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,439 [INFO] WebApp:221 - Starting web application
+2025-08-24 21:06:40,440 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,439 [INFO] WebApp:579 - Web application path used jar:file:/C:/Program%20Files/STMicroelectronics/STM32Cube/STM32CubeMX/STM32CubeMX.exe!/db/plugins/mcufinder/reactClient1/index.html
+2025-08-24 21:06:40,476 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,475 [INFO] ApiDb:581 - Connected to CubeFinder SQLite database (C:\Users\Miloush\.stmcufinder\plugins\mcufinder\mcu\cube-finder-db.db)
+2025-08-24 21:06:40,661 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,660 [INFO] ApiDb:668 - CubeFinder database Data Model version=2.1
+2025-08-24 21:06:40,661 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,661 [INFO] ApiDb:669 - CubeFinder database Configuration version=3.0.39
+2025-08-24 21:06:40,662 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,661 [INFO] ApiDb:670 - CubeFinder database generation date=2025-07-24 (1753349077)
+2025-08-24 21:06:40,663 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:40,662 [INFO] ApiDb:671 - CubeFinder database FW Pack versions=[FP-ATR-ASTRA1_V2.0.0, FP-SNS-FLIGHT1_V5.1.0, FP-SNS-MOTENV1_V5.0.0, FP-SNS-MOTENVWB1_V1.4.0, FP-SNS-SMARTAG2_V1.2.0, FP-SNS-STBOX1_V2.0.0, STM32Cube_FW_C0_V1.4.0, STM32Cube_FW_F4_V1.28.2, STM32Cube_FW_F7_V1.17.3, STM32Cube_FW_G0_V1.6.2, STM32Cube_FW_G4_V1.6.1, STM32Cube_FW_H5_V1.5.0, STM32Cube_FW_H7RS_V1.2.0, STM32Cube_FW_H7_V1.12.1, STM32Cube_FW_L0_V1.12.2, STM32Cube_FW_L4_V1.18.1, STM32Cube_FW_L5_V1.5.1, STM32Cube_FW_N6_V1.2.0, STM32Cube_FW_U0_V1.3.0, STM32Cube_FW_U3_V1.2.0, STM32Cube_FW_U5_V1.8.0, STM32Cube_FW_WB0_V1.3.0, STM32Cube_FW_WBA_V1.7.0, STM32Cube_FW_WB_V1.23.0, STM32Cube_FW_WL3_V1.2.0, STM32Cube_FW_WL_V1.3.1, X-CUBE-ALGOBUILD_V1.4.0, X-CUBE-ALS_V1.0.2, X-CUBE-AZRTOS-F4_V1.1.0, X-CUBE-AZRTOS-F7_V1.1.0, X-CUBE-AZRTOS-G0_V1.1.0, X-CUBE-AZRTOS-G4_V2.0.0, X-CUBE-AZRTOS-H7RS_V1.1.0, X-CUBE-AZRTOS-H7_V3.4.0, X-CUBE-AZRTOS-L4_V2.0.0, X-CUBE-AZRTOS-L5_V2.0.0, X-CUBE-AZRTOS-WB_V2.0.0, X-CUBE-AZRTOS-WL_V2.0.0, X-CUBE-BLE1_V7.1.0, X-CUBE-BLE2_V3.3.0, X-CUBE-BLEMGR_V4.1.0, X-CUBE-EEPRMA1_V5.2.0, X-CUBE-FREERTOS_V1.3.1, X-CUBE-GNSS1_V6.0.0, X-CUBE-MEMS1_V11.3.0, X-CUBE-NFC4_V3.0.0, X-CUBE-NFC7_V2.0.0, X-CUBE-SFXS2LP1_V4.0.0, X-CUBE-ST67W61_V1.0.0, X-CUBE-SUBG2_V5.0.0, X-CUBE-TOF1_V3.4.3]
+2025-08-24 21:06:41,434 DEBUG [LineInfo_to_exitCode.log_LineInfo] 2025-08-24 21:06:41,433 [INFO] WebApp:187 - Connection restablished
+2025-08-24 21:06:43,545 DEBUG [IOCDialogController.lambda$onClose$8] IOCGenerationDialog exists with return code 4

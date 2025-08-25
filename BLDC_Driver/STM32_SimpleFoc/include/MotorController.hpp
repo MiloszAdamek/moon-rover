@@ -17,7 +17,12 @@ public:
   void feedCommand(char* cmdString); // przekazanie komendy jako ciąg znaków
 
   void setTarget(float rad_s);
+
   float getTarget() const { return motor.target; }
+  float getAngle() { return sensor.getAngle(); }
+  float getVelocity() const { return motor.shaft_velocity; }
+  float getCurrent_q() const { return motor.current.q; }
+  float getCurrent_d() const { return motor.current.d; }
 
   // void getAngle(float& angle);
   

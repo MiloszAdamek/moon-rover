@@ -1,0 +1,7 @@
+../Core/Src/fdcan_comm.c:3:6:FDCAN_Comm_Init	40	static
+../Core/Src/fdcan_comm.c:21:17:len_to_dlc	16	static
+../Core/Src/fdcan_comm.c:43:19:FDCAN_Comm_Send	56	static
+../Core/Src/fdcan_comm.c:61:6:HAL_FDCAN_RxFifo0Callback	128	static
+../Core/Src/fdcan_comm.c:83:13:FDCAN_Comm_RxCallback	16	static
+../Core/Src/fdcan_comm.c:89:6:BuildMessage_SetRegulator	16	static
+../Core/Src/fdcan_comm.c:95:6:BuildMessage_SetSpeed	16	static

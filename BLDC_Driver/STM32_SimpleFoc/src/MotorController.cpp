@@ -1,5 +1,5 @@
 #include "MotorController.hpp"
-#include "pinmap_custom.h"
+#include "PinmapCustom.h"
 
 MotorController* MotorController::instance = nullptr;
 

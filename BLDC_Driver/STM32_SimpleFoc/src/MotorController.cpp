@@ -91,7 +91,7 @@ void MotorController::begin() {
   // Commander
   command.add('T', onTargetCmd, "target velocity [rad/s]");
   command.add('M', onModeCmd, "mode: 0-torque, 1-velocity, 2-angle"); 
-  command.add('C', onTargetCmd, "target current [A]"); // Zadanie prądu w trybie torque
+  command.add('C', onCurrentCmd, "target current [A]"); // Zadanie prądu w trybie torque
 
   _delay(1000);
   Serial.println("SimpleFOC configuration complete. Entering loop...");
@@ -107,8 +107,16 @@ void MotorController::runCommand() {
   command.run();
 }
 
-void MotorController::setTarget(float rad_s) {
+void MotorController::setTargetVelocity(float rad_s) {
   motor.target = rad_s;
+}
+
+void MotorController::setTargetPosition(float pos) {
+  motor.target = pos;
+}
+
+void MotorController::setTargetTorque(float torque) {
+  motor.target = torque;
 }
 
 void MotorController::onTargetCmd(char* cmd) { // Velocity target in velocity mode

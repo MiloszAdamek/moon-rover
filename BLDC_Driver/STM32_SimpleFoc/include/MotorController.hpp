@@ -16,8 +16,12 @@ public:
 
   void feedCommand(char* cmdString); // przekazanie komendy jako ciąg znaków
 
-  void setTarget(float rad_s);
+  // TODO: Settery, sprawdzić poprawność z SimpleFoc
+  void setTargetVelocity(float rad_s) {motor.target = rad_s;}
+  void setTargetPosition(float pos) { motor.target = pos; }
+  void setTargetTorque(float torque) { motor.target = torque; }
   void setControlMode(MotionControlType mode) { motor.controller = mode; }
+  void setTorqueControlMode(TorqueControlType mode) { motor.torque_controller = mode; }
 
   float getTarget() const { return motor.target; }
   float getAngle() { return sensor.getAngle(); }

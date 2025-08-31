@@ -72,6 +72,7 @@ void loop() {
     motorController.update();
     motorController.runCommand();
     canBusDriver->Loop();
+    
     // handleCAN();
 
     // canTest();

@@ -97,7 +97,7 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
             break;
         }
 
-        case REBOOT_STM32_ESC1: {
+        case REBOOT: {
             pRxCommands->Received_Reboot(Device);
             break;
         }
@@ -178,7 +178,6 @@ void RxFromCAN::Received_SetInputValue(const int Device, float target, float lim
         Serial.printf("CAN CMD from Dev %d: Set Target -> %.2f, Limit: %.2f\n", Device, target, limit);
     }
 }
-
 
 void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t control_mode, Input_Mode_t input_mode) {
     if (pMotorController) {

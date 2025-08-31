@@ -23,7 +23,6 @@ constexpr CanNetworkConfig MasterConfig_Node = { .MyNodeId = 0x100, .MasterNodeI
 constexpr CanNetworkConfig SlaveConfig_Node0 = { .MyNodeId = 0x55, .MasterNodeId = 0x100 };
 constexpr CanNetworkConfig SlaveConfig_Node1 = { .MyNodeId = 0x66, .MasterNodeId = 0x100 };
 
-
 // ==========================================================
 // ===              KONFIGURACJA SIMPLEFOC                ===
 // ==========================================================

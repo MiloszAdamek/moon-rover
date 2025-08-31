@@ -28,17 +28,11 @@
 
 #define SET_LIMITS						0x00F
 #define GET_IQ							0x014
-#define REBOOT_ODRIVE					0x016
-
-#if defined(ESC_TYPE_STM32_ESC1)
-	#define REBOOT_STM32_ESC1			REBOOT_ODRIVE
-#endif
-
+#define REBOOT							0x016
 #define GET_BUS_VOLTAGE_CURRENT			0x017
 #define CLEAR_ERRORS					0x018
 #define SET_POSITION_GAIN				0x01A
 #define SET_VEL_GAINS					0x01B
-
 
 
 //Axis States

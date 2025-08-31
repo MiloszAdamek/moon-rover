@@ -1,6 +1,33 @@
 #pragma once
 #include <Arduino.h>
 
+// ==========================================================
+// ===              WYBÓR STEROWNIKA BLDC                 ===
+// ==========================================================
+
+#define ESC_TYPE_STM32_ESC1 extern
+// #define ESC_ODRIVE extern
+
+// ==========================================================
+// ===              KONFIGURACJA CAN                      ===
+// ==========================================================
+
+struct CanNetworkConfig {
+    const int MyNodeId;
+    const int MasterNodeId;
+};
+
+extern const CanNetworkConfig AppCanConfig;
+
+constexpr CanNetworkConfig MasterConfig_Node = { .MyNodeId = 0x100, .MasterNodeId = 0x100 };
+constexpr CanNetworkConfig SlaveConfig_Node0 = { .MyNodeId = 0x55, .MasterNodeId = 0x100 };
+constexpr CanNetworkConfig SlaveConfig_Node1 = { .MyNodeId = 0x66, .MasterNodeId = 0x100 };
+
+
+// ==========================================================
+// ===              KONFIGURACJA SIMPLEFOC                ===
+// ==========================================================
+
 namespace AppConfig {
 
 struct MotorConfig {
@@ -8,7 +35,7 @@ struct MotorConfig {
   uint8_t pwm_u_l, pwm_v_l, pwm_w_l;
   uint8_t pwm_u_h, pwm_v_h, pwm_w_h;
 
- // SPI3
+  // SPI3
   uint8_t spi3_mosi, spi3_miso, spi3_sck, spi3_cs;
 
   // Enkoder AS5048A

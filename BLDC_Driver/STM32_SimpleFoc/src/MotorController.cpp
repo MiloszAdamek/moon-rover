@@ -107,17 +107,17 @@ void MotorController::runCommand() {
   command.run();
 }
 
-void MotorController::setTargetVelocity(float rad_s) {
-  motor.target = rad_s;
-}
+// void MotorController::setTargetVelocity(float rad_s) {
+//   motor.target = rad_s;
+// }
 
-void MotorController::setTargetPosition(float pos) {
-  motor.target = pos;
-}
+// void MotorController::setTargetPosition(float pos) {
+//   motor.target = pos;
+// }
 
-void MotorController::setTargetTorque(float torque) {
-  motor.target = torque;
-}
+// void MotorController::setTargetTorque(float torque) {
+//   motor.target = torque;
+// }
 
 void MotorController::onTargetCmd(char* cmd) { // Velocity target in velocity mode
   if (instance) {
@@ -162,3 +162,11 @@ void MotorController::feedCommand(char* cmdString) {
 //   sensor.update(); // Aktualizacja sensora
 //   angle = sensor.getAngle();
 // }
+
+void MotorController::setCurrentLimit(float current_limit){
+  motor.PID_velocity.limit = current_limit;
+  // torque command can be voltage or current
+  if(!_isset(motor.phase_resistance) && motor.torque_controller == TorqueControlType::voltage) motor.voltage_limit = current_limit;
+  else  motor.current_limit = current_limit;
+}
+

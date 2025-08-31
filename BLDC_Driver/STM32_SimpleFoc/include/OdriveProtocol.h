@@ -9,17 +9,37 @@
 #define SET_AXIS_REQUESTED_STATE 		0x007
 #define ENCODER_ESTIMATES				0x009
 #define GET_ENCODER_COUNT				0x00A
+
+#if defined(ESC_TYPE_ODRIVE)
+	#define SET_INPUT_POS					0x00C
+	#define SET_INPUT_VEL					0x00D
+	#define SET_INPUT_TORQUE				0x00E
+#endif
+
+#if defined(ESC_TYPE_STM32_ESC1)
+	#define SET_INPUT_VALUE					0x00C
+	#define SET_INPUT_POS					SET_INPUT_VALUE
+	#define SET_INPUT_VEL					SET_INPUT_VALUE
+	#define SET_INPUT_TORQUE				SET_INPUT_VALUE
+	// Depends on the motor controller mode, this could be position, velocity, or torque
+#endif
+
 #define SET_CONTROLLER_MODES			0x00B
-#define SET_INPUT_POS					0x00C
-#define SET_INPUT_VEL					0x00D
-#define SET_INPUT_TORQUE				0x00E
+
 #define SET_LIMITS						0x00F
 #define GET_IQ							0x014
 #define REBOOT_ODRIVE					0x016
+
+#if defined(ESC_TYPE_STM32_ESC1)
+	#define REBOOT_STM32_ESC1			REBOOT_ODRIVE
+#endif
+
 #define GET_BUS_VOLTAGE_CURRENT			0x017
 #define CLEAR_ERRORS					0x018
 #define SET_POSITION_GAIN				0x01A
 #define SET_VEL_GAINS					0x01B
+
+
 
 //Axis States
 typedef enum {
@@ -82,7 +102,5 @@ typedef enum {
     }FOCModulationType_t;
 
 #endif
-
-
 
 #endif // ODRIVE_PROTOCOL_H

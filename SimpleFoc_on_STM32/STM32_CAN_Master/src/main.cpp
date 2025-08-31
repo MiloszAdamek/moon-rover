@@ -2,10 +2,11 @@
 #include <SimpleFOC.h>
 #include "CANProfile.h"
 
+#define STM32_MASTER
 
 // Konfiguracja adresacji magistrali CAN
 const CanNetworkConfig AppCanConfig = MasterConfig_Node;
-const CanNetworkConfig SlaveConfig_Node0 = SlaveConfig_Node0; // Node ID 0x55
+const CanNetworkConfig SlaveConfig = SlaveConfig_Node0; // Node ID 0x55
 
 // --- Obiekty globalne ---
 
@@ -28,8 +29,8 @@ void onCmdVel(char* cmd) {
     token = strtok(NULL, " ");
     float torque_ff = (token) ? atof(token) : 0.0f; // Jeśli nie ma drugiego argumentu, użyj 0.0
 
-    int can_id = PP_MAKE_CAN_ID(AppCanConfig.MyNodeId, SET_INPUT_VALUE);
-    Serial.printf("TX -> SET_INPUT_VEL to Node %d: vel=%.2f, torque_ff=%.2f\n", SlaveConfig_Node0.MyNodeId, vel, torque_ff);
+    int can_id = PP_MAKE_CAN_ID(SlaveConfig.MyNodeId, SET_INPUT_VALUE);
+    Serial.printf("TX -> SET_INPUT_VEL to Node %d: vel=%.2f, torque_ff=%.2f\n", SlaveConfig.MyNodeId, vel, torque_ff);
     canBus.CANSendFloat(vel, torque_ff, can_id);
 }
 
@@ -39,8 +40,8 @@ void onCmdMode(char* cmd) {
     if (!token) return;
     int mode = atoi(token); // atoi dla liczb całkowitych
 
-    int can_id = PP_MAKE_CAN_ID(SlaveConfig_Node0.MyNodeId, SET_CONTROLLER_MODES);
-    Serial.printf("TX -> SET_CONTROLLER_MODES to Node %d: mode=%d\n", SlaveConfig_Node0.MyNodeId, mode);
+    int can_id = PP_MAKE_CAN_ID(SlaveConfig.MyNodeId, SET_CONTROLLER_MODES);
+    Serial.printf("TX -> SET_CONTROLLER_MODES to Node %d: mode=%d\n", SlaveConfig.MyNodeId, mode);
     canBus.CANSendInt((int32_t)mode, (int32_t)INPUT_MODE_PASSTHROUGH, can_id);
 }
 
@@ -50,8 +51,8 @@ void onCmdState(char* cmd) {
     if (!token) return;
     int state = atoi(token);
 
-    int can_id = PP_MAKE_CAN_ID(SlaveConfig_Node0.MyNodeId, SET_AXIS_REQUESTED_STATE);
-    Serial.printf("TX -> SET_AXIS_REQUESTED_STATE to Node %d: state=%d\n", SlaveConfig_Node0.MyNodeId, state);
+    int can_id = PP_MAKE_CAN_ID(SlaveConfig.MyNodeId, SET_AXIS_REQUESTED_STATE);
+    Serial.printf("TX -> SET_AXIS_REQUESTED_STATE to Node %d: state=%d\n", SlaveConfig.MyNodeId, state);
     canBus.CANSendInt((int32_t)state, can_id);
 }
 
@@ -66,8 +67,8 @@ void onCmdLimits(char* cmd) {
     token = strtok(NULL, " ");
     float curr_limit = (token) ? atof(token) : 0.0f;
 
-    int can_id = PP_MAKE_CAN_ID(SlaveConfig_Node0.MyNodeId, SET_LIMITS);
-    Serial.printf("TX -> SET_LIMITS to Node %d: vel_limit=%.2f, curr_limit=%.2f\n", SlaveConfig_Node0.MyNodeId, vel_limit, curr_limit);
+    int can_id = PP_MAKE_CAN_ID(SlaveConfig.MyNodeId, SET_LIMITS);
+    Serial.printf("TX -> SET_LIMITS to Node %d: vel_limit=%.2f, curr_limit=%.2f\n", SlaveConfig.MyNodeId, vel_limit, curr_limit);
     canBus.CANSendFloat(vel_limit, curr_limit, can_id);
 }
 
@@ -109,8 +110,10 @@ void setup() {
 }
 
 void loop() {
-    motorController.command.run();
+
+    motorController.runCommand();
+    canBus.Can1->Loop();
+
     // canTest();
-    // canBus.Can1->Loop();
 }
 

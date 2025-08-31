@@ -4,7 +4,6 @@
 #include <SimpleFOC.h>
 #include <SimpleFOCDrivers.h>
 #include "Config.hpp"
-#include "PinmapCustom.h"
 
 class MotorController {
 public:

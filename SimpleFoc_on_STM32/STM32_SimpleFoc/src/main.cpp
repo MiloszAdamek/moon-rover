@@ -2,7 +2,6 @@
 
 #include "MotorController.hpp"
 #include "Config.hpp"
-#include "PinmapCustom.h"
 #include "OdriveProtocol.h"
 #include "CANProfile.h"
 

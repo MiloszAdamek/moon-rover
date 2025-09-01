@@ -2,6 +2,12 @@
 #include <Arduino.h>
 
 // ==========================================================
+// ===              WŁĄCZENIE DEBUGOWANIA                 ===
+// ==========================================================
+
+#define ENABLE_SERIAL_DEBUGGING
+
+// ==========================================================
 // ===              WYBÓR STEROWNIKA BLDC                 ===
 // ==========================================================
 
@@ -19,9 +25,14 @@ struct CanNetworkConfig {
 
 extern const CanNetworkConfig AppCanConfig;
 
-constexpr CanNetworkConfig MasterConfig_Node = { .MyNodeId = 0x100, .MasterNodeId = 0x100 };
-constexpr CanNetworkConfig SlaveConfig_Node0 = { .MyNodeId = 0x55, .MasterNodeId = 0x100 };
-constexpr CanNetworkConfig SlaveConfig_Node1 = { .MyNodeId = 0x66, .MasterNodeId = 0x100 };
+constexpr CanNetworkConfig MasterConfig_Node = { .MyNodeId = 0x05, .MasterNodeId = 0x05 };
+constexpr CanNetworkConfig SlaveConfig_Node0 = { .MyNodeId = 0x09, .MasterNodeId = 0x05 };
+constexpr CanNetworkConfig SlaveConfig_Node1 = { .MyNodeId = 0x0A, .MasterNodeId = 0x05 };
+
+// Interwały wysyłania telemetrii w milisekundach
+constexpr unsigned long ENCODER_ESTIMATES_INTERVAL_MS = 20;  // 50 Hz
+constexpr unsigned long HEARTBEAT_INTERVAL_MS = 250;       // 4 Hz
+constexpr unsigned long IQ_MEASUREMENT_INTERVAL_MS = 50;   // 20 Hz (opcjonalnie)
 
 // ==========================================================
 // ===              KONFIGURACJA SIMPLEFOC                ===
@@ -83,3 +94,9 @@ struct MotorConfig {
 extern const MotorConfig BoardConfig;
 
 } // namespace AppConfig
+
+#ifdef ENABLE_SERIAL_DEBUGGING
+    #define LOG(format, ...) Serial.printf(format, ##__VA_ARGS__)
+#else
+    #define LOG(format, ...) do {} while (0)
+#endif

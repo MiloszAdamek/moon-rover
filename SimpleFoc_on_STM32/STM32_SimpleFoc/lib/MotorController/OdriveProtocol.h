@@ -10,19 +10,10 @@
 #define ENCODER_ESTIMATES				0x009
 #define GET_ENCODER_COUNT				0x00A
 
-#if defined(ESC_TYPE_ODRIVE)
-	#define SET_INPUT_POS					0x00C
-	#define SET_INPUT_VEL					0x00D
-	#define SET_INPUT_TORQUE				0x00E
-#endif
 
-#if defined(ESC_TYPE_STM32_ESC1)
-	#define SET_INPUT_VALUE					0x00C
-	#define SET_INPUT_POS					SET_INPUT_VALUE
-	#define SET_INPUT_VEL					SET_INPUT_VALUE
-	#define SET_INPUT_TORQUE				SET_INPUT_VALUE
-	// Depends on the motor controller mode, this could be position, velocity, or torque
-#endif
+#define SET_INPUT_POS					0x00C
+#define SET_INPUT_VEL					0x00D
+#define SET_INPUT_TORQUE				0x00E
 
 #define SET_CONTROLLER_MODES			0x00B
 

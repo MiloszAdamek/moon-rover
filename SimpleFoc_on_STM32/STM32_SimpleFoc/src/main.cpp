@@ -13,6 +13,7 @@ SimpleCan* canBusDriver = CreateCanLib(A_CAN_TX, A_CAN_RX); // Zwraca obiekt kla
 RxFromCAN canCommandHandler(&motorController); // Broker komend
 CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeId); // Logika transmisji
 
+// TODO: Wysyłanie telemtrii, w przerwaniu np.
 void handleCAN() {
   static uint32_t last_can_telemetry_time = 0;
   // Wysyłaj telemetrię co 50ms (20 Hz)
@@ -68,13 +69,12 @@ void canTest(){
 
 void loop() {
 
-    motorController.update();
-    motorController.runCommand();
-    canBusDriver->Loop();
+  motorController.update();
+  motorController.runCommand();
+  canBusDriver->Loop();
     
-    // handleCAN();
-
-    // canTest();
+  // handleCAN();
+  // canTest();
 }
 
 

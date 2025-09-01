@@ -15,24 +15,30 @@ public:
 
   void feedCommand(char* cmdString); // przekazanie komendy jako ciąg znaków
 
-  // TODO: Settery, sprawdzić poprawność z SimpleFoc
-  // void setTargetVelocity(float rad_s) {motor.target = rad_s;}
-  // void setTargetPosition(float pos) { motor.target = pos; }
-  // void setTargetTorque(float torque) { motor.target = torque; }
-  void setTargetValue(float target) { motor.target = target; } // Depends on the motor controller mode, this could be position, velocity, or torque
+  void setTarget(float target) { motor.target = target; } // Depends on the motor controller mode, this could be position, velocity, or torque
   void setCurrentLimit(float current_limit);
-  void setVelocityLimit(float velocity_limit) { motor.velocity_limit = velocity_limit; }
+  void setVelocityLimit(float velocity_limit);
+  // void setTorqueFF(float torque_ff);
 
-  void setControlMode(MotionControlType mode) { motor.controller = mode; }
-  void setTorqueControlMode(TorqueControlType mode) { motor.torque_controller = mode; }
+  void changeControlMode(MotionControlType new_mode);
+  void changeTorqueControlType(TorqueControlType new_mode);
 
+  void updateLimits();
   float getTarget() const { return motor.target; }
-  float getAngle() { return sensor.getAngle(); }
+ 
   MotionControlType getMotionControlType() const { return motor.controller; }
+  TorqueControlType getTorqueControlType() const { return motor.torque_controller; }
 
-  float getVelocity() const { return motor.shaft_velocity; }
-  float getCurrent_q() const { return motor.current.q; }
-  float getCurrent_d() const { return motor.current.d; }
+  float getI_q() const { return motor.current.q; }
+  float getI_d() const { return motor.current.d; }
+
+  float getVelocity() { return sensor.getVelocity(); }
+  float getAngle() { return sensor.getAngle(); }
+  
+  float getShaftVelocity() const { return motor.shaft_velocity; }
+  float getShaftAngle() const { return motor.shaft_angle; }
+
+  // uint32_t getErrorFlags() const { return motor.error_flags; } // Zmapowane błędy
 
   void enable() { driver.enable(); }
   void disable() { driver.disable(); }

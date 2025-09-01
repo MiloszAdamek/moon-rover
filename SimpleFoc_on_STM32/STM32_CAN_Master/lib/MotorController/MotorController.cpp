@@ -106,18 +106,6 @@ void MotorController::runCommand() {
   command.run();
 }
 
-// void MotorController::setTargetVelocity(float rad_s) {
-//   motor.target = rad_s;
-// }
-
-// void MotorController::setTargetPosition(float pos) {
-//   motor.target = pos;
-// }
-
-// void MotorController::setTargetTorque(float torque) {
-//   motor.target = torque;
-// }
-
 void MotorController::onTargetCmd(char* cmd) { // Velocity target in velocity mode
   if (instance) {
     instance->command.scalar(&instance->motor.target, cmd);
@@ -157,15 +145,57 @@ void MotorController::feedCommand(char* cmdString) {
   command.run(cmdString);
 }
 
-// void MotorController::getAngle(float& angle) {
-//   sensor.update(); // Aktualizacja sensora
-//   angle = sensor.getAngle();
-// }
-
-void MotorController::setCurrentLimit(float current_limit){
-  motor.PID_velocity.limit = current_limit;
-  // torque command can be voltage or current
-  if(!_isset(motor.phase_resistance) && motor.torque_controller == TorqueControlType::voltage) motor.voltage_limit = current_limit;
-  else  motor.current_limit = current_limit;
+void MotorController::changeControlMode(MotionControlType new_mode) {
+    if (motor.controller == new_mode) return;
+    motor.target = 0;
+    motor.controller = new_mode;
+    switch (new_mode) {
+        case MotionControlType::angle: motor.P_angle.reset(); motor.PID_velocity.reset(); break;
+        case MotionControlType::velocity: motor.PID_velocity.reset(); break;
+        case MotionControlType::torque: motor.PID_current_q.reset(); motor.PID_current_d.reset(); break;
+        default: break;
+    }
+    updateLimits();
 }
+
+void MotorController::changeTorqueControlType(TorqueControlType new_torque_mode) {
+  if (motor.torque_controller == new_torque_mode) return;
+
+  motor.torque_controller = new_torque_mode;
+
+  // Po zmianie trybu TORQUE, również musimy zaktualizować limit pętli prędkości!
+  updateLimits();
+
+  // esetujemy pętle prądowe
+  motor.PID_current_q.reset();
+  motor.PID_current_d.reset();
+
+  Serial.printf("Torque control type changed to: %d\n", (int)new_torque_mode);
+}
+
+
+void MotorController::setCurrentLimit(float limit) {
+    motor.current_limit = limit;
+    updateLimits();
+}
+
+void MotorController::setVelocityLimit(float limit) {
+    motor.velocity_limit = limit;
+    updateLimits();
+}
+
+void MotorController::updateLimits() {
+    if (motor.torque_controller == TorqueControlType::voltage) {
+        motor.PID_velocity.limit = motor.voltage_limit;
+    } else {
+        motor.PID_velocity.limit = motor.current_limit;
+    }
+    motor.P_angle.limit = motor.velocity_limit;
+}
+
+
+// void MotorController::setTorqueFF(float torque_ff) {
+//     // Ustawiamy poprawną zmienną w obiekcie motor z biblioteki SimpleFOC
+//     motor.torque_controller_target = torque_ff;
+// }
 

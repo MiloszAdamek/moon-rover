@@ -21,6 +21,7 @@ void CANMotorController::canInit() {
     Can1->EnableBlinkOnActivity(LED_BUILTIN);
 }
 
+
 void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, const uint8_t *rxData)
 {
     int Device = PP_GET_DEVICE_ID(rxHeader.Identifier);
@@ -31,76 +32,121 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
     // Sprawdzamy, czy mamy handler do obsłużenia komendy
     if (!pRxCommands) return;
 
-    switch(Command)
-    {
-        case SET_INPUT_POS: {
-            float pos;
-            int16_t vel_ff, torque_ff; // ODrive używa int16 dla FF w tej komendzie
-            memcpy(&pos, rxData, sizeof(float));
-            memcpy(&vel_ff, rxData + 4, sizeof(int16_t));
-            memcpy(&torque_ff, rxData + 6, sizeof(int16_t));
-            pRxCommands->Received_SetInputPos(Device, pos, vel_ff, torque_ff);
-            break;
-        }
-        case SET_INPUT_VEL: {
-            float vel, torque_ff;
-            memcpy(&vel, rxData, sizeof(float));
-            memcpy(&torque_ff, rxData + 4, sizeof(float));
-            pRxCommands->Received_SetInputVel(Device, vel, torque_ff);
-            break;
-        }
-        case SET_INPUT_TORQUE: {
-            float torque;
-            memcpy(&torque, rxData, sizeof(float));
-            pRxCommands->Received_SetInputTorque(Device, torque);
-            break;
-        }
+    // RTR frames
+    if(rxHeader.RxFrameType == CAN_REMOTE_FRAME){
+        switch (Command)
+        {
+            // To nie jest RTR
+            // case ENCODER_ESTIMATES: {
+            //     pRxCommands->Received_GetEncoderEstimates(Device);
+            //     break;
+            // }
 
-        case SET_CONTROLLER_MODES: {
-            Control_Mode_t control_mode;
-            Input_Mode_t input_mode;
-            memcpy(&control_mode, rxData, sizeof(int32_t));
-            memcpy(&input_mode, rxData + 4, sizeof(int32_t));
-            pRxCommands->Received_SetControllerModes(Device, control_mode, input_mode);
-            break;
-        }
+            // case GET_ENCODER_COUNT: {
+            //     pRxCommands->Received_GetEncoderCount(Device);
+            //     break;
+            // }
 
-        case SET_LIMITS: {
-            float velocity_limit, current_limit;
-            memcpy(&velocity_limit, rxData, sizeof(float));
-            memcpy(&current_limit, rxData + 4, sizeof(float));
-            pRxCommands->Received_SetLimits(Device, current_limit, velocity_limit);
-            break;
-        }
+            case GET_BUS_VOLTAGE_CURRENT: {
+                pRxCommands->Received_GetBusVoltageCurrent(Device);
+                break;
+            }
 
-        case SET_POSITION_GAIN: {
-            float pos_gain;
-            memcpy(&pos_gain, rxData, sizeof(float));
-            pRxCommands->Received_SetPosGain(Device, pos_gain);
-            break;
-        }
-        case SET_VEL_GAINS: {
-            float vel_gain, vel_integrator_gain;
-            memcpy(&vel_gain, rxData, sizeof(float));
-            memcpy(&vel_integrator_gain, rxData + 4, sizeof(float));
-            pRxCommands->Received_SetVelGains(Device, vel_gain, vel_integrator_gain);
-            break;
-        }
+            case GET_IQ: {
+                pRxCommands->Received_GetIQ(Device);
+                break;
+            }
 
-        case REBOOT: {
-            pRxCommands->Received_Reboot(Device);
-            break;
+            default:
+                LOG("CAN RTR from Dev %d: Ignored (unknown command) %d\n", Device, Command);
+                break;
         }
+    }
+    // DATA FRAMES
+    else{
+        switch(Command)
+            {
+                case ODRIVE_HEARTBEAT_MESSAGE: break;
 
-        // case CLEAR_ERRORS: {
-        //     pRxCommands->Received_ClearErrors(Device);
-        //     break;
-        // }
+                case SET_AXIS_NODE_ID: break;
 
-        default:
-            LOG("CAN CMD from Dev %d: Ignored (unknown command) %d\n", Device, Command);
-            break;
-    } 
+                case SET_AXIS_REQUESTED_STATE: break;
+
+                case ENCODER_ESTIMATES: break;
+
+                case SET_CONTROLLER_MODES: {
+                    Control_Mode_t control_mode;
+                    Input_Mode_t input_mode;
+                    memcpy(&control_mode, rxData, sizeof(int32_t));
+                    memcpy(&input_mode, rxData + 4, sizeof(int32_t));
+                    pRxCommands->Received_SetControllerModes(Device, control_mode, input_mode);
+                    break;
+                }
+
+                case SET_INPUT_POS: {
+                    float pos;
+                    int16_t vel_ff, torque_ff; // ODrive używa int16 dla FF w tej komendzie
+                    memcpy(&pos, rxData, sizeof(float));
+                    memcpy(&vel_ff, rxData + 4, sizeof(int16_t));
+                    memcpy(&torque_ff, rxData + 6, sizeof(int16_t));
+                    pRxCommands->Received_SetInputPos(Device, pos, vel_ff, torque_ff);
+                    break;
+                }
+
+                case SET_INPUT_VEL: {
+                    float vel, torque_ff;
+                    memcpy(&vel, rxData, sizeof(float));
+                    memcpy(&torque_ff, rxData + 4, sizeof(float));
+                    pRxCommands->Received_SetInputVel(Device, vel, torque_ff);
+                    break;
+                }
+
+                case SET_INPUT_TORQUE: {
+                    float torque;
+                    memcpy(&torque, rxData, sizeof(float));
+                    pRxCommands->Received_SetInputTorque(Device, torque);
+                    break;
+                }
+
+                case SET_LIMITS: {
+                    float velocity_limit, current_limit;
+                    memcpy(&velocity_limit, rxData, sizeof(float));
+                    memcpy(&current_limit, rxData + 4, sizeof(float));
+                    pRxCommands->Received_SetLimits(Device, current_limit, velocity_limit);
+                    break;
+                }
+
+                case GET_IQ: break;
+
+                case REBOOT: {
+                    pRxCommands->Received_Reboot(Device);
+                    break;
+                }
+
+                case GET_BUS_VOLTAGE_CURRENT: break;
+
+                case CLEAR_ERRORS: break;
+
+                case SET_POSITION_GAIN: {
+                    float pos_gain;
+                    memcpy(&pos_gain, rxData, sizeof(float));
+                    pRxCommands->Received_SetPosGain(Device, pos_gain);
+                    break;
+                }
+
+                case SET_VEL_GAINS: {
+                    float vel_gain, vel_integrator_gain;
+                    memcpy(&vel_gain, rxData, sizeof(float));
+                    memcpy(&vel_integrator_gain, rxData + 4, sizeof(float));
+                    pRxCommands->Received_SetVelGains(Device, vel_gain, vel_integrator_gain);
+                    break;
+                }
+
+                default:
+                    LOG("CAN CMD from Dev %d: Ignored (unknown command) %d\n", Device, Command);
+                    break;
+            } 
+        }
 }
 
 void RxFromCAN::Received_SetInputPos(const int Dev, float pos, int16_t vff, int16_t tff) {
@@ -205,6 +251,66 @@ void RxFromCAN::Received_Reboot(const int Device) {
     }
 }
 
+void RxFromCAN::Received_GetBusVoltageCurrent(const int Device) {
+    if (pMotorController && pCanBus) {
+        float busVoltage = pMotorController->getBusVoltage();
+        float busCurrent = pMotorController->getBusCurrent();
+
+        int can_id = PP_MAKE_CAN_ID(Device, GET_BUS_VOLTAGE_CURRENT);
+        pCanBus->CANSendFloat(busVoltage, busCurrent, can_id);
+    }
+}
+
+void RxFromCAN::Received_GetIQ(const int Device) {
+    if (pMotorController && pCanBus) {
+        float iq = pMotorController->getI_q();
+
+        int can_id = PP_MAKE_CAN_ID(Device, GET_IQ);
+        pCanBus->CANSendFloat(iq, 0, can_id);
+    }
+}
+
+void RxFromCAN::SendHeartbeat()
+{
+
+}
+
+void RxFromCAN::SendEncoderEstimates() 
+{
+    float encPos = pMotorController->getShaftAngle();
+    float encVel = pMotorController->getShaftVelocity();
+
+    int can_id = PP_MAKE_CAN_ID(AppCanConfig.MyNodeId, ENCODER_ESTIMATES);
+    pCanBus->CANSendFloat(encPos, encVel, can_id);
+}
+
+
+// void RxFromCAN::Received_GetEncoderEstimates(const int Device) {
+//     if (pMotorController && pCanBus) {
+//         float encPos = pMotorController->getShaftAngle();
+//         float encVel = pMotorController->getShaftVelocity();
+//         int response_can_id = PP_MAKE_CAN_ID(Device, GET_ENCODER_COUNT);
+//         pCanBus->CANSendFloat(encPos, encVel, response_can_id);
+
+//         LOG("CAN RTR Response: Sent Encoder Estimates for Dev %d\n", Device);
+//     }
+// }
+
+// void RxFromCAN::Received_GetEncoderCount(const int Device) {
+//     if (pMotorController && pCanBus) {
+        
+//         // --- WYSYŁANIE ODPOWIEDZI ---
+//         // Zbuduj ID ramki odpowiedzi
+//         int response_can_id = PP_MAKE_CAN_ID(pCanBus->getNodeId(), GET_ENCODER_COUNT);
+
+//         // Wyślij dwie 32-bitowe liczby całkowite
+//         pCanBus->CANSendInt(shadow_count, cpr_count, response_can_id);
+        
+//         // Logowanie do debugowania
+//         LOG("CAN RTR Response for GET_ENCODER_COUNT: Shadow=%ld, CPR_Count=%ld\n", shadow_count, cpr_count);
+//     }
+// }
+
 // void RxFromCAN::Received_SetAxisState(const int Device, Axis_State_t state) {
 //     if (pMotorController) {
 //         switch(state) {
@@ -225,3 +331,4 @@ void RxFromCAN::Received_Reboot(const int Device) {
 
 //     }
 // }
+

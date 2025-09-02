@@ -16,29 +16,21 @@ CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeI
 // TODO: Wysyłanie telemtrii, w przerwaniu np.
 void handleCAN() {
   static uint32_t last_can_telemetry_time = 0;
-  // Wysyłaj telemetrię co 50ms (20 Hz)
-  if (millis() - last_can_telemetry_time > 50) { 
+  // Wysyłaj telemetrię co 10ms (100 Hz)
+  if (millis() - last_can_telemetry_time > 10) { 
     last_can_telemetry_time = millis();
 
-    // Pobierz aktualne dane z kontrolera silnika
-    float current_velocity = motorController.getVelocity();
-    float current_angle = motorController.getAngle();
-    
-    // Zbuduj ID ramki - użyjemy protokołu ODrive
-    // ID osi = MY_CAN_ID, ID komendy = ENCODER_ESTIMATES
-    int can_id = (AppCanConfig.MyNodeId << 5) | ENCODER_ESTIMATES;
-    
-    // Użyj gotowej metody z CANMotorController (który dziedziczy z SimpleCANProfile)
-    // do wysłania dwóch floatów. Ona sama zajmie się spakowaniem ich do 8 bajtów.
-    // Argumenty: (wartość 1, wartość 2, ID ramki)
-    canBus.CANSendFloat(current_angle, current_velocity, can_id);
-  }
+    canCommandHandler.SendHeartbeat();
+    canCommandHandler.SendEncoderEstimates();
 
+  }
   // Ta funkcja jest kluczowa dla działania odbioru i kolejek!
   canBusDriver->Loop();
 }
 
 void setup() {
+
+  canCommandHandler.linkCanBus(&canBus);
 
   Serial.begin(115200);
   while (!Serial);

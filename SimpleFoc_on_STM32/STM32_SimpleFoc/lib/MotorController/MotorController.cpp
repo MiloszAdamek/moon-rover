@@ -193,7 +193,6 @@ void MotorController::updateLimits() {
     motor.P_angle.limit = motor.velocity_limit;
 }
 
-
 // void MotorController::setTorqueFF(float torque_ff) {
 //     // Ustawiamy poprawną zmienną w obiekcie motor z biblioteki SimpleFOC
 //     motor.torque_controller_target = torque_ff;

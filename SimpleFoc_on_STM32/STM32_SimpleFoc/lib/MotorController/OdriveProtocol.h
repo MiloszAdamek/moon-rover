@@ -9,14 +9,10 @@
 #define SET_AXIS_REQUESTED_STATE 		0x007
 #define ENCODER_ESTIMATES				0x009
 #define GET_ENCODER_COUNT				0x00A
-
-
 #define SET_INPUT_POS					0x00C
 #define SET_INPUT_VEL					0x00D
 #define SET_INPUT_TORQUE				0x00E
-
 #define SET_CONTROLLER_MODES			0x00B
-
 #define SET_LIMITS						0x00F
 #define GET_IQ							0x014
 #define REBOOT							0x016

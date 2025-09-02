@@ -229,7 +229,6 @@ void ODrive_RX_CallBack(Axis *AXIS,FDCAN_RxHeaderTypeDef* RxHeader, uint8_t* dat
 				AXIS->Controller_Status = data[5];
 				break;
 
-
 			case ENCODER_ESTIMATES:
 				uint32_t *ptrEncPos;
 				ptrEncPos = (uint32_t *)&(AXIS->AXIS_Encoder_Pos);

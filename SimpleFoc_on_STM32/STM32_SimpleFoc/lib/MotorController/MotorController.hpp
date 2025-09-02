@@ -12,7 +12,7 @@ public:
   void begin();        // wywołaj w setup()
   void update();       // wywołuj w loop() - FOC + sterowanie
   void runCommand();   // wywołuj w loop() - Commander
-
+  
   void feedCommand(char* cmdString); // przekazanie komendy jako ciąg znaków
 
   void setTarget(float target) { motor.target = target; } // Depends on the motor controller mode, this could be position, velocity, or torque
@@ -37,6 +37,9 @@ public:
   
   float getShaftVelocity() const { return motor.shaft_velocity; }
   float getShaftAngle() const { return motor.shaft_angle; }
+
+  float getBusVoltage() { return driver.voltage_power_supply; }
+  float getBusCurrent() { return current_sense.getDCCurrent(motor.electrical_angle); }
 
   // uint32_t getErrorFlags() const { return motor.error_flags; } // Zmapowane błędy
 

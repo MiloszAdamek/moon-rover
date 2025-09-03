@@ -55,14 +55,16 @@ void onCmdPos(char* cmd) {
     canBus.Can1->SendMessage(txData, 8, can_id);
 }
 
-// Komenda: M <mode> (np. M 6 -> FOC Current)
+// Komenda: M <mode> (np. M 1 2-> FOC Current, Torque Control Type Voltage)
 void onCmdMode(char* cmd) {
     char* token = strtok(cmd, " ");
     if (!token) return;
-    int mode = atoi(token);
+    float motion_mode = atof(token);
+    token = strtok(NULL, " ");
+    float torque_mode = (token) ? atof(token) : 0.0f;
     int can_id = PP_MAKE_CAN_ID(TargetConfig.MyNodeId, SET_CONTROLLER_MODES);
-    Serial.printf("TX -> SET_CONTROLLER_MODES to Node %d: mode=%d\n", TargetConfig.MyNodeId, mode);
-    canBus.CANSendInt((int32_t)mode, (int32_t)INPUT_MODE_PASSTHROUGH, can_id);
+    Serial.printf("TX -> SET_CONTROLLER_MODES to Node %d: motion_mode=%d, torque_mode=%d\n", TargetConfig.MyNodeId, motion_mode, torque_mode);
+    canBus.CANSendInt((int32_t)motion_mode, (int32_t)torque_mode, can_id);
 }
 
 // Komenda: S <state> (np. S 8 -> Closed Loop)
@@ -120,7 +122,7 @@ void setup() {
     Serial.println(" T <torque>            (Amps)");
     Serial.println(" V <velocity> <torque_ff>");
     Serial.println(" P <position>");
-    Serial.println(" M <mode_id>");
+    Serial.println(" M <motion_mode_id> <torque_mode_id");
     Serial.println(" S <state_id>");
     Serial.println(" L <vel_lim> <curr_lim>");
     Serial.println(" R (Reboot Slave)");

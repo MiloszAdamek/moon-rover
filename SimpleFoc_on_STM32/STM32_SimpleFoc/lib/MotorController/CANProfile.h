@@ -21,8 +21,8 @@ class MotorControllerNotificationsFromCAN
         virtual void Received_SetInputTorque(const int Device, float torque) = 0;
 
         // Konfiguracja
-        virtual void Received_SetControllerModes(const int Device, Control_Mode_t control_mode, Input_Mode_t input_mode) = 0;
-        virtual void Received_SetLimits(const int Device, float current_limit, float velocity_limit) = 0;
+        virtual void Received_SetControllerModes(const int Device, Control_Mode_t motion_control_mode, Control_Mode_t torque_control_mode) = 0;
+        virtual void Received_SetLimits(const int Device, float velocity_limit, float current_limit) = 0;
         virtual void Received_SetPosGain(const int Device, float pos_p) = 0;
         virtual void Received_SetVelGains(const int Device, float vel_p, float vel_i) = 0;
 
@@ -32,8 +32,7 @@ class MotorControllerNotificationsFromCAN
         virtual void Received_Reboot(const int Device) = 0;
 
         // Przesyłanie danych
-        virtual void Received_GetEncoderCount(const int Device) = 0;
-        virtual void Received_GetEncoderEstimates(const int Device) = 0;
+        // virtual void Received_GetEncoderCount(const int Device) = 0;
         virtual void Received_GetBusVoltageCurrent(const int Device) = 0;
         virtual void Received_GetIQ(const int Device) = 0;
 
@@ -71,8 +70,8 @@ public:
     void Received_SetInputTorque(const int Device, float torque) override;
 
     // Konfiguracja
-    void Received_SetControllerModes(const int Device, Control_Mode_t control_mode, Input_Mode_t input_mode) override;
-    void Received_SetLimits(const int Device, float current_limit, float velocity_limit) override;
+    void Received_SetControllerModes(const int Device, Control_Mode_t motion_control_mode, Control_Mode_t torque_control_mode) override;
+    void Received_SetLimits(const int Device, float velocity_limit, float current_limit) override;
     void Received_SetPosGain(const int Device, float pos_p) override;
     void Received_SetVelGains(const int Device, float vel_p, float vel_i) override;
 
@@ -82,8 +81,7 @@ public:
     void Received_Reboot(const int Device) override;
 
     // Przesyłanie danych -> odpowiedź na RTR
-    void Received_GetEncoderCount(const int Device) override;
-    void Received_GetEncoderEstimates(const int Device) override;
+    // void Received_GetEncoderCount(const int Device) override;
     void Received_GetBusVoltageCurrent(const int Device) override;
     void Received_GetIQ(const int Device) override;
 

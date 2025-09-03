@@ -75,11 +75,11 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
                 case ENCODER_ESTIMATES: break;
 
                 case SET_CONTROLLER_MODES: {
-                    Control_Mode_t control_mode;
-                    Input_Mode_t input_mode;
-                    memcpy(&control_mode, rxData, sizeof(int32_t));
-                    memcpy(&input_mode, rxData + 4, sizeof(int32_t));
-                    pRxCommands->Received_SetControllerModes(Device, control_mode, input_mode);
+                    Control_Mode_t motion_control_mode;
+                    Control_Mode_t torque_control_mode;
+                    memcpy(&motion_control_mode, rxData, sizeof(int32_t));
+                    memcpy(&torque_control_mode, rxData + 4, sizeof(int32_t));
+                    pRxCommands->Received_SetControllerModes(Device, motion_control_mode, torque_control_mode);
                     break;
                 }
 
@@ -112,7 +112,7 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
                     float velocity_limit, current_limit;
                     memcpy(&velocity_limit, rxData, sizeof(float));
                     memcpy(&current_limit, rxData + 4, sizeof(float));
-                    pRxCommands->Received_SetLimits(Device, current_limit, velocity_limit);
+                    pRxCommands->Received_SetLimits(Device, velocity_limit, current_limit);
                     break;
                 }
 
@@ -157,7 +157,7 @@ void RxFromCAN::Received_SetInputPos(const int Dev, float pos, int16_t vff, int1
 void RxFromCAN::Received_SetInputVel(const int Dev, float vel, float tff) {
     if (pMotorController && pMotorController->getMotionControlType() == MotionControlType::velocity) {
         pMotorController->setTarget(vel);
-        // pMotorController->setTorqueFF(tff);
+        pMotorController->setTorqueFF(tff);
     }
 }
 void RxFromCAN::Received_SetInputTorque(const int Dev, float torque) {
@@ -167,31 +167,17 @@ void RxFromCAN::Received_SetInputTorque(const int Dev, float torque) {
 }
 
 // TODO: Nie działa zmiana trybu z Torque do Velocity, silnik wariuje. Trzeba rozkminić resetowanie PID.
-void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t control_mode, Input_Mode_t input_mode) {
+void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t motion_control_mode, Control_Mode_t torque_control_mode) {
     if (pMotorController) {
-        // Ignorujemy input_mode na razie
-        (void)input_mode;
 
         MotionControlType new_motion_mode;
         TorqueControlType new_torque_mode;
         bool motion_mode_changed = true;
         bool torque_mode_to_set = false;
 
-        switch(control_mode) {
-            case CONTROL_MODE_TORQUE_VOLTAGE: 
+        switch(motion_control_mode) {
+            case CONTROL_MODE_TORQUE: 
                 new_motion_mode = MotionControlType::torque; 
-                new_torque_mode = TorqueControlType::voltage; 
-                torque_mode_to_set = true; 
-                break;
-            case CONTROL_MODE_TORQUE_DC_CURRENT: 
-                new_motion_mode = MotionControlType::torque; 
-                new_torque_mode = TorqueControlType::dc_current; 
-                torque_mode_to_set = true; 
-                break;
-            case CONTROL_MODE_TORQUE_FOC_CURRENT: 
-                new_motion_mode = MotionControlType::torque; 
-                new_torque_mode = TorqueControlType::foc_current; 
-                torque_mode_to_set = true; 
                 break;
             case CONTROL_MODE_VELOCITY: 
                 new_motion_mode = MotionControlType::velocity; 
@@ -209,6 +195,21 @@ void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t con
                 motion_mode_changed = false; 
                 break;
         }
+
+        switch(torque_control_mode) {
+            case TORQUE_CONTROL_MODE_VOLTAGE: 
+                new_torque_mode = TorqueControlType::voltage; 
+                break;
+            case TORQUE_CONTROL_MODE_DC_CURRENT: 
+                new_torque_mode = TorqueControlType::dc_current; 
+                break;
+            case TORQUE_CONTROL_MODE_FOC_CURRENT: 
+                new_torque_mode = TorqueControlType::foc_current; 
+                break;
+            default: 
+                motion_mode_changed = false; 
+                break;
+        }
         
         if (motion_mode_changed) {
             
@@ -218,15 +219,14 @@ void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t con
             }
 
             pMotorController->changeControlMode(new_motion_mode);
-
-            Serial.printf("CAN CMD from Dev %d: Set Control Mode -> %d\n", Device, control_mode);
+            Serial.printf("CAN CMD from Dev %d: Set Motion Control Mode -> %d, Torque Control Mode -> %d\n", Device, motion_control_mode, torque_control_mode);
         }
     }
 }
 
 void RxFromCAN::Received_SetLimits(const int Dev, float v_lim, float c_lim) {
     if (pMotorController) { pMotorController->setVelocityLimit(v_lim); pMotorController->setCurrentLimit(c_lim);
-    LOG("CAN CMD from Dev %d: Set Limits -> Current: %.2f, Velocity: %.2f\n", Dev, c_lim, v_lim);}
+    LOG("CAN CMD from Dev %d: Set Limits -> Velocity: %.2f, Current: %.2f\n", Dev, v_lim, c_lim);}
 }
 
 void RxFromCAN::Received_SetPosGain(const int Device, float pos_p) {

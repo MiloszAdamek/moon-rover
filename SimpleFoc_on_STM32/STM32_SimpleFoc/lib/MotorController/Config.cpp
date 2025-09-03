@@ -21,6 +21,7 @@ PB5, PB4, PB3, PA15,
 A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 0.003f,          // shunt_resistance
 -64.0f/7.0f,     // amp_gain
+5.0f,            // voltage_sensor_align
 
 // Silnik
 7,          // pole pairs
@@ -42,14 +43,14 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 
 // Torque, Id, Iq
 // I_Q axis
-5.0f, 1000.0f, 0.0f, // PID P,I,D, I_q
-1000.0f,
-0.005f, // output ramp, LPF Tf
+0.5f, 0.1f, 0.0f, // PID P,I,D, I_q
+50.0f,
+0.01f, // output ramp, LPF Tf
 
 // I_D axis
-5.0f, 1000.0f, 0.0f, // PID P,I,D, I_d
-1000.0f,
-0.005f, // output ramp, LPF Tf
+1.0f, 0.5f, 0.01f, // PID P,I,D, I_d
+100.0f,
+0.01f, // output ramp, LPF Tf
 
 // Startowy target
 10.0f              // [rad/s]

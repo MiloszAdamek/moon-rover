@@ -5,6 +5,8 @@
 #include "OdriveProtocol.h"
 #include "CANProfile.h"
 
+long timer_monitor = millis();
+
 // Konfiguracja adresacji magistrali CAN
 const CanNetworkConfig AppCanConfig = SlaveConfig_Node0;
 
@@ -59,6 +61,8 @@ void canTest(){
   delay(1000); // Czekaj 1 sekundę
 }
 
+
+
 void loop() {
 
   motorController.update();
@@ -67,6 +71,15 @@ void loop() {
     
   // handleCAN();
   // canTest();
-}
 
+  // motorController.nonMotorTests();
+  // motorController.printCurrentSensor();
+
+  if (millis() - timer_monitor > 1000) {
+   motorController.printMonitoredValues();
+  //  motorController.printCurrentSensor();
+  //  motorController.printEncoder();
+   timer_monitor = millis();
+  }
+}
 

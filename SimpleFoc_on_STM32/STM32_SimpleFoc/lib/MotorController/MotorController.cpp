@@ -44,9 +44,9 @@ void MotorController::begin() {
   SimpleFOCDebug::enable(&Serial);
 
   // MOTOR
-  motor.controller = MotionControlType::velocity;
-  motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
   motor.torque_controller = TorqueControlType::foc_current;
+  motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
+  motor.controller = MotionControlType::torque;
   motor.init();
 
   // PID / FILTRY / LIMITY
@@ -96,6 +96,7 @@ void MotorController::begin() {
   command.add('T', onTargetCmd, "target velocity [rad/s]");
   command.add('M', onModeCmd, "mode: 0-torque, 1-velocity, 2-angle"); 
   command.add('C', onCurrentCmd, "target current [A]"); // Zadanie prądu w trybie torque
+  command.add('Q', onTargetTorqueCmd, "target torque [Nm]"); // Zadanie momentu w trybie torque
 
   _delay(1000);
   Serial.println("SimpleFOC configuration complete. Entering loop...");
@@ -143,6 +144,15 @@ void MotorController::onModeCmd(char* cmd) {
         Serial.println("Unknown mode!");
         break;
     }
+  }
+}
+
+void MotorController::onTargetTorqueCmd(char* cmd) { // Torque target in torque mode, mNm
+  if (instance) {
+    float target_torque_Nm = atof(cmd) / 1000.0f; // Convert string to float
+    // Convert torque (mNm) to current (A): Iq = Torque / Kt
+    float target_current_A = target_torque_Nm / instance->config.Kt;
+    instance->motor.target = target_current_A;
   }
 }
 
@@ -207,23 +217,13 @@ void MotorController::updateLimits() {
 // Print chosen monitor values
 void MotorController::printMonitoredValues() {
 
-  Serial.println(this->getTarget());
-  Serial.println(",");
-  //  Serial.print(motor.shaft_angle);
-  //  Serial.print(",");
-  //  Serial.print(motor.shaft_velocity);
-  //  Serial.print(",");
-  //  Serial.print(motor.voltage.q);
-  //  Serial.print(",");
-  Serial.println(this->getI_q());
-  Serial.println(",");
-  //  Serial.print(motor.voltage.d);
-  //  Serial.print(",");
-  Serial.println(this->getI_d());
-  //  Serial.print(",");
-  //  Serial.print(current_sensor.getDCCurrent());
-  Serial.print("\n");
-  
+// Wystarczy zamienić "..." na String("...")
+Serial.println(String("\nTarget: ") + String(this->getTarget()) + "[A], Target torque: " + String((this->getTarget() * this->config.Kt)*1000.0f) + " [mNm]");  
+Serial.println(String("\nI_q: ") + String(this->getI_q()));
+Serial.println(String("\nI_d: ") + String(this->getI_d()));
+Serial.println(String("\nTorque: ") + String((this->getI_q() * this->config.Kt)*1000.0f) + " [mNm]"); // Przeliczenie prądu Iq na moment obrotowy
+Serial.print("\n");
+
 }
 
 // Print current encoder angle and velocity

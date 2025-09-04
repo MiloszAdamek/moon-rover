@@ -56,11 +56,13 @@ struct MotorConfig {
   uint8_t curr_u, curr_v, curr_w;
   float   shunt_resistance;
   float   amp_gain;
+  float voltage_sensor_align;
 
   // Parametry silnika
   int   pole_pairs;
   float kv_rating;
   float phase_resistance;
+  float Kt; // Stała momentu obrotowego (Nm/A)
 
   // Driver/Voltage
   float    v_supply;

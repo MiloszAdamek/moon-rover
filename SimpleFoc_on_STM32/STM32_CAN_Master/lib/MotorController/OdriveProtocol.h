@@ -9,14 +9,10 @@
 #define SET_AXIS_REQUESTED_STATE 		0x007
 #define ENCODER_ESTIMATES				0x009
 #define GET_ENCODER_COUNT				0x00A
-
-
 #define SET_INPUT_POS					0x00C
 #define SET_INPUT_VEL					0x00D
 #define SET_INPUT_TORQUE				0x00E
-
 #define SET_CONTROLLER_MODES			0x00B
-
 #define SET_LIMITS						0x00F
 #define GET_IQ							0x014
 #define REBOOT							0x016
@@ -52,14 +48,15 @@ typedef enum {
         CONTROL_MODE_POSITION_CONTROL = 0x3
     #endif
     #if defined(ESC_TYPE_STM32_ESC1)
-        CONTROL_MODE_VELOCITY = 0x00,
-        CONTROL_MODE_ANGLE = 0x01,
-        CONTROL_MODE_VELOCITY_OPENLOOP = 0x02,
-        CONTROL_MODE_ANGLE_OPENLOOP = 0x03,
-        CONTROL_MODE_TORQUE_VOLTAGE = 0x04,     //!< Torque control using voltage
-        CONTROL_MODE_TORQUE_DC_CURRENT = 0x05,  //!< Torque control using DC current (one current magnitude)
-        CONTROL_MODE_TORQUE_FOC_CURRENT = 0x06, //!< torque control using dq currents
+        CONTROL_MODE_TORQUE = 0x1,
+        CONTROL_MODE_VELOCITY = 0x2,
+        CONTROL_MODE_ANGLE = 0x3,
+		CONTROL_MODE_VELOCITY_OPENLOOP = 0x4,
+        CONTROL_MODE_ANGLE_OPENLOOP = 0x5,
 
+		TORQUE_CONTROL_MODE_VOLTAGE = 0x6,
+		TORQUE_CONTROL_MODE_DC_CURRENT = 0x7,
+		TORQUE_CONTROL_MODE_FOC_CURRENT = 0x8
     #endif
 } Control_Mode_t;
 

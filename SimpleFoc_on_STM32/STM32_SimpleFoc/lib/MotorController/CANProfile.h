@@ -41,21 +41,23 @@ class MotorControllerNotificationsFromCAN
 class CANMotorController : public SimpleCANProfile
 {
     public:
-        CANMotorController(SimpleCan* pCan, MotorControllerNotificationsFromCAN* _pRxCommands, int nodeId) 
+        CANMotorController(SimpleCan* pCan, MotorControllerNotificationsFromCAN* _pRxCommands, int myNodeId, int masterNodeId) 
             : SimpleCANProfile(pCan)
         {
             pRxCommands = _pRxCommands;
-            this->nodeId = nodeId;
+            this->myNodeId = myNodeId;
+            this->masterNodeId = masterNodeId;
         }
         void canInit();
         void HandleCanMessage(const SimpleCanRxHeader rxHeader, const uint8_t *rxData) override;
 
-        void setNodeId(int id) { this->nodeId = id; }
-        int getNodeId() const { return this->nodeId; }
+        void setNodeId(int id) { this->myNodeId = id; }
+        int getNodeId() const { return this->myNodeId; }
 
     private:
         MotorControllerNotificationsFromCAN* pRxCommands;
-        int nodeId;
+        int myNodeId;
+        int masterNodeId;
 };
 
 class RxFromCAN : public MotorControllerNotificationsFromCAN
@@ -86,8 +88,9 @@ public:
     void Received_GetIQ(const int Device) override;
 
     // Heartbeat functions
-    void SendHeartbeat();   
-    void SendEncoderEstimates();
+    // void SendHeartbeat();   
+    void sendEncoderEstimates();
+    void sendIq();
 
 private:
     MotorController* pMotorController;

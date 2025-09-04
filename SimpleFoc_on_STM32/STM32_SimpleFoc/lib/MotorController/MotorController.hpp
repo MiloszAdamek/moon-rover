@@ -29,13 +29,14 @@ public:
   MotionControlType getMotionControlType() const { return motor.controller; }
   TorqueControlType getTorqueControlType() const { return motor.torque_controller; }
 
-  float getI_q() const { return motor.current.q; }
-  float getI_d() const { return motor.current.d; }
+  float getI_q() const { return motor.current.q; } // Meassured current in q axis
+  float getI_d() const { return motor.current.d; } // Meassured current in d axis
+  float getSetPointI_q() const { return motor.current_sp; }
 
   float getVelocity() { return sensor.getVelocity(); }
   float getAngle() { return sensor.getAngle(); }
   
-  float getShaftVelocity() const { return motor.shaft_velocity; }
+  float getShaftVelocity() const { return motor.shaft_velocity; } 
   float getShaftAngle() const { return motor.shaft_angle; }
 
   float getBusVoltage() { return driver.voltage_power_supply; }
@@ -65,6 +66,7 @@ private:
   static void onTargetCmd(char* cmd); // Zmiana zadanej prędkości obrotowej
   static void onModeCmd(char* cmd); // Zmiana trybu pracy kontrolera
   static void onCurrentCmd(char* cmd); // Zadanie prądu w trybie torque
+  static void onTargetTorqueCmd(char* cmd); // Zadanie momentu w Nm w trybie torque
 
   // Obiekty SimpleFOC
   BLDCMotor motor;

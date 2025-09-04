@@ -27,6 +27,7 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 7,          // pole pairs
 168.0f,     // KV
 9.0f,       // phase resistance
+0.0306f,     // Kt [Nm/A] - stała momentu obrotowego
 
 // Driver/Voltage
 12.0f,      // v_supply
@@ -53,7 +54,7 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 0.01f, // output ramp, LPF Tf
 
 // Startowy target
-10.0f              // [rad/s]
+0.1f              // [rad/s]
 };
 
 } // namespace AppConfig

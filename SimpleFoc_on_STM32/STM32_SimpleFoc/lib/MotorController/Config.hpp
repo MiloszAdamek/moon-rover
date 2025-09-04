@@ -62,6 +62,7 @@ struct MotorConfig {
   int   pole_pairs;
   float kv_rating;
   float phase_resistance;
+  float Kt; // Stała momentu obrotowego (Nm/A)
 
   // Driver/Voltage
   float    v_supply;

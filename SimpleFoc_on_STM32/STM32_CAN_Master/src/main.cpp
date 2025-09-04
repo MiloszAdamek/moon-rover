@@ -6,14 +6,14 @@
 
 // Konfiguracja adresacji magistrali CAN
 const CanNetworkConfig AppCanConfig = MasterConfig_Node;
-const CanNetworkConfig TargetConfig  = SlaveConfig_Node0; // Node ID 0x55
+const CanNetworkConfig TargetConfig  = SlaveConfig_Node0;
 
 // --- Obiekty globalne ---
 
 MotorController motorController(AppConfig::BoardConfig); // Kontroler SimpleFoc
 SimpleCan* canBusDriver = CreateCanLib(A_CAN_TX, A_CAN_RX); // Zwraca obiekt klasy SimpleCan_STM32G4xx
 RxFromCAN canCommandHandler(&motorController); // Broker komend
-CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeId); // Logika transmisji
+CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeId, TargetConfig.MyNodeId); // Logika transmisji
 
 // Komenda: T <torque> (np. T0.5)
 void onCmdTorque(char* cmd) {

@@ -2,12 +2,13 @@
 
 MotorController* MotorController::instance = nullptr;
 
-MotorController::MotorController(const AppConfig::MotorConfig& cfg)
+MotorController::MotorController(const AppConfig::MotorConfig& cfg, float torque_feed_forward)
   : config(cfg),
     motor(cfg.pole_pairs, cfg.phase_resistance, cfg.kv_rating),
     driver(cfg.pwm_u_h, cfg.pwm_u_l, cfg.pwm_v_h, cfg.pwm_v_l, cfg.pwm_w_h, cfg.pwm_w_l),
     current_sense(cfg.shunt_resistance, cfg.amp_gain, cfg.curr_u, cfg.curr_v, cfg.curr_w),
     sensor(cfg.spi3_cs, cfg.bit_resolution, cfg.angle_register),
+    torque_feed_forward(torque_feed_forward),
     spi3(cfg.spi3_mosi, cfg.spi3_miso, cfg.spi3_sck),
     command(Serial)
 {
@@ -22,6 +23,7 @@ void MotorController::begin() {
   spi3.begin();
   sensor.init(&spi3);
   motor.linkSensor(&sensor);
+  motor.voltage_sensor_align = config.voltage_sensor_align;
   Serial.println("Sensor initialized.");
 
   // DRIVER
@@ -39,9 +41,12 @@ void MotorController::begin() {
   motor.linkCurrentSense(&current_sense);
   Serial.println("Current sense initialized.");
 
+  SimpleFOCDebug::enable(&Serial);
+
   // MOTOR
-  motor.controller = MotionControlType::velocity;
+  motor.torque_controller = TorqueControlType::foc_current;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
+  motor.controller = MotionControlType::torque;
   motor.init();
 
   // PID / FILTRY / LIMITY
@@ -84,13 +89,14 @@ void MotorController::begin() {
 
   // Monitoring (opcjonalnie)
   motor.useMonitoring(Serial);
-  motor.monitor_downsample = 100;
-  motor.monitor_variables = _MON_VEL | _MON_ANGLE | _MON_TARGET | _MON_CURR_Q | _MON_CURR_D | _MON_VOLT_Q | _MON_VOLT_D;
+  motor.monitor_downsample = 10000;
+  motor.monitor_variables = _MON_TARGET | _MON_VEL | _MON_CURR_D | _MON_CURR_Q;
 
   // Commander
   command.add('T', onTargetCmd, "target velocity [rad/s]");
   command.add('M', onModeCmd, "mode: 0-torque, 1-velocity, 2-angle"); 
   command.add('C', onCurrentCmd, "target current [A]"); // Zadanie prądu w trybie torque
+  command.add('Q', onTargetTorqueCmd, "target torque [Nm]"); // Zadanie momentu w trybie torque
 
   _delay(1000);
   Serial.println("SimpleFOC configuration complete. Entering loop...");
@@ -99,7 +105,7 @@ void MotorController::begin() {
 void MotorController::update() {
   motor.loopFOC();
   motor.move();
-  // opcjonalnie: motor.monitor();
+  // motor.monitor(); // opcjonalnie
 }
 
 void MotorController::runCommand() {
@@ -138,6 +144,15 @@ void MotorController::onModeCmd(char* cmd) {
         Serial.println("Unknown mode!");
         break;
     }
+  }
+}
+
+void MotorController::onTargetTorqueCmd(char* cmd) { // Torque target in torque mode, mNm
+  if (instance) {
+    float target_torque_Nm = atof(cmd) / 1000.0f; // Convert string to float
+    // Convert torque (mNm) to current (A): Iq = Torque / Kt
+    float target_current_A = target_torque_Nm / instance->config.Kt;
+    instance->motor.target = target_current_A;
   }
 }
 
@@ -193,9 +208,44 @@ void MotorController::updateLimits() {
     motor.P_angle.limit = motor.velocity_limit;
 }
 
-
 // void MotorController::setTorqueFF(float torque_ff) {
 //     // Ustawiamy poprawną zmienną w obiekcie motor z biblioteki SimpleFOC
 //     motor.torque_controller_target = torque_ff;
 // }
 
+
+// Print chosen monitor values
+void MotorController::printMonitoredValues() {
+
+// Wystarczy zamienić "..." na String("...")
+Serial.println(String("\nTarget: ") + String(this->getTarget()) + "[A], Target torque: " + String((this->getTarget() * this->config.Kt)*1000.0f) + " [mNm]");  
+Serial.println(String("\nI_q: ") + String(this->getI_q()));
+Serial.println(String("\nI_d: ") + String(this->getI_d()));
+Serial.println(String("\nTorque: ") + String((this->getI_q() * this->config.Kt)*1000.0f) + " [mNm]"); // Przeliczenie prądu Iq na moment obrotowy
+Serial.print("\n");
+
+}
+
+// Print current encoder angle and velocity
+void MotorController::printEncoder() {
+
+  float current_angle = this->getShaftAngle();
+  current_angle = current_angle * 180 / PI;
+
+  float current_vel = this->getShaftVelocity();
+
+  Serial.printf("\nAngle: %.2f [deg] \t Velocity: %.2f [rad/s]", current_angle, current_vel);
+}
+
+
+// Print readings from current sensors
+void MotorController::printCurrentSensor() {
+
+  PhaseCurrent_s currents = current_sense.getPhaseCurrents();
+  float current_magnitude = current_sense.getDCCurrent();
+
+  Serial.printf("\nPhase A: %.2f [A]", currents.a);
+  Serial.printf("\nPhase B: %.2f [A]", currents.b);
+  Serial.printf("\nPhase C: %.2f [A]", currents.c);
+  Serial.printf("\nMagnitude: %.2f [A]", current_magnitude);
+}

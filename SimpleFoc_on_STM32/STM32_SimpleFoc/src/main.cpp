@@ -13,7 +13,7 @@ const CanNetworkConfig AppCanConfig = SlaveConfig_Node0;
 MotorController motorController(AppConfig::BoardConfig); // Kontroler SimpleFoc
 SimpleCan* canBusDriver = CreateCanLib(A_CAN_TX, A_CAN_RX); // Zwraca obiekt klasy SimpleCan_STM32G4xx
 RxFromCAN canCommandHandler(&motorController); // Broker komend
-CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeId); // Logika transmisji
+CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeId, AppCanConfig.MasterNodeId); // Logika transmisji
 
 // TODO: Wysyłanie telemtrii, w przerwaniu np.
 void handleCAN() {
@@ -22,12 +22,12 @@ void handleCAN() {
   if (millis() - last_can_telemetry_time > 10) { 
     last_can_telemetry_time = millis();
 
-    canCommandHandler.SendHeartbeat();
-    canCommandHandler.SendEncoderEstimates();
+    canCommandHandler.sendIq();
+    // canCommandHandler.SendEncoderEstimates();
 
   }
   // Ta funkcja jest kluczowa dla działania odbioru i kolejek!
-  canBusDriver->Loop();
+  // canBusDriver->Loop();
 }
 
 void setup() {
@@ -61,8 +61,6 @@ void canTest(){
   delay(1000); // Czekaj 1 sekundę
 }
 
-
-
 void loop() {
 
   motorController.update();
@@ -70,6 +68,7 @@ void loop() {
   canBusDriver->Loop();
     
   // handleCAN();
+
   // canTest();
 
   // motorController.nonMotorTests();

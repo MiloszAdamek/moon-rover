@@ -21,7 +21,6 @@ void CANMotorController::canInit() {
     Can1->EnableBlinkOnActivity(LED_BUILTIN);
 }
 
-
 void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, const uint8_t *rxData)
 {
     int Device = PP_GET_DEVICE_ID(rxHeader.Identifier);
@@ -224,6 +223,56 @@ void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t mot
     }
 }
 
+// void CANMotorController::SendHeartbeat(uint32_t error, uint8_t state) {
+//     uint8_t data[8] = {0};
+//     memcpy(data, &error, 4);
+//     data[4] = state;
+//     // ... (można dodać controller_status na bajcie 5)
+    
+//     int can_id = PP_MAKE_CAN_ID(this->myNodeId, ODRIVE_HEARTBEAT_MESSAGE);
+//     this->Can1->SendMessage(data, 8, can_id);
+// }
+
+// void RxFromCAN::sendHeartbeat() {
+//     // Sprawdź, czy mamy wszystko, czego potrzebujemy
+//     if (!pCanBus || !pMotorController) return;
+
+//     uint8_t data[8] = {0};
+//     uint32_t error = pMotorController->getErrorFlags();
+//     uint8_t state = pMotorController->isEnabled() ? AXIS_STATE_CLOSED_LOOP_CONTROL : AXIS_STATE_IDLE;
+    
+//     memcpy(data, &error, 4);
+//     data[4] = state;
+
+//     int can_id = PP_MAKE_CAN_ID(pCanBus->getNodeId(), ODRIVE_HEARTBEAT_MESSAGE);
+//     pCanBus->Can1->SendMessage(data, 8, can_id);
+// }
+
+void RxFromCAN::sendEncoderEstimates() {
+    if (!pCanBus || !pMotorController) return;
+
+    // Pobierz dane z silnika (w radianach)
+    float pos_rad = pMotorController->getAngle();
+    float vel_rad_s = pMotorController->getVelocity();
+
+    // Przelicz na jednostki ODrive (obroty)
+    float pos_rev = pos_rad / _2PI;
+    float vel_rev_s = vel_rad_s / _2PI;
+
+    int can_id = PP_MAKE_CAN_ID(pCanBus->getNodeId(), ENCODER_ESTIMATES);
+    pCanBus->CANSendFloat(pos_rev, vel_rev_s, can_id);
+}
+
+void RxFromCAN::sendIq() {
+    if (!pCanBus || !pMotorController) return;
+
+    float iq_set = pMotorController->getSetPointI_q();
+    float iq_meas = pMotorController->getI_q();
+
+    int can_id = PP_MAKE_CAN_ID(pCanBus->getNodeId(), GET_IQ);
+    pCanBus->CANSendFloat(iq_set, iq_meas, can_id);
+}
+
 void RxFromCAN::Received_SetLimits(const int Dev, float v_lim, float c_lim) {
     if (pMotorController) { pMotorController->setVelocityLimit(v_lim); pMotorController->setCurrentLimit(c_lim);
     LOG("CAN CMD from Dev %d: Set Limits -> Velocity: %.2f, Current: %.2f\n", Dev, v_lim, c_lim);}
@@ -264,26 +313,12 @@ void RxFromCAN::Received_GetBusVoltageCurrent(const int Device) {
 void RxFromCAN::Received_GetIQ(const int Device) {
     if (pMotorController && pCanBus) {
         float iq = pMotorController->getI_q();
+        float iq_set = pMotorController->getSetPointI_q();
 
         int can_id = PP_MAKE_CAN_ID(Device, GET_IQ);
-        pCanBus->CANSendFloat(iq, 0, can_id);
+        pCanBus->CANSendFloat(iq, iq_set, can_id);
     }
 }
-
-void RxFromCAN::SendHeartbeat()
-{
-
-}
-
-void RxFromCAN::SendEncoderEstimates() 
-{
-    float encPos = pMotorController->getShaftAngle();
-    float encVel = pMotorController->getShaftVelocity();
-
-    int can_id = PP_MAKE_CAN_ID(AppCanConfig.MyNodeId, ENCODER_ESTIMATES);
-    pCanBus->CANSendFloat(encPos, encVel, can_id);
-}
-
 
 // void RxFromCAN::Received_GetEncoderEstimates(const int Device) {
 //     if (pMotorController && pCanBus) {
@@ -331,4 +366,3 @@ void RxFromCAN::SendEncoderEstimates()
 
 //     }
 // }
-

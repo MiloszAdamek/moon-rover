@@ -19,11 +19,11 @@ void MotorController::begin() {
   Serial.println("SimpleFOC G431RB: Starting configuration...");
 
   // ENCODER
-  // spi3.begin();
-  // sensor.init(&spi3);
-  // motor.linkSensor(&sensor);
-  // motor.voltage_sensor_align = config.voltage_sensor_align;
-  // Serial.println("Sensor initialized.");
+  spi3.begin();
+  sensor.init(&spi3);
+  motor.linkSensor(&sensor);
+  motor.voltage_sensor_align = config.voltage_sensor_align;
+  Serial.println("Sensor initialized.");
 
   // DRIVER
   driver.pwm_frequency = config.pwm_frequency;
@@ -45,7 +45,7 @@ void MotorController::begin() {
   // MOTOR
   motor.torque_controller = TorqueControlType::foc_current;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
-  motor.controller = MotionControlType::velocity_openloop;
+  motor.controller = MotionControlType::torque;
   motor.init();
 
   // PID / FILTRY / LIMITY

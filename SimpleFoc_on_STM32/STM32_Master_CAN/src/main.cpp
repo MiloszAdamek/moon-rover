@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SimpleFOC.h>
-#include "CANProfile.h"
+#include "CanProfile.h"
+#include "Config.hpp"
 
 #define STM32_MASTER
 
@@ -10,7 +11,7 @@ const CanNetworkConfig TargetConfig  = SlaveConfig_Node0;
 
 // --- Obiekty globalne ---
 
-MotorController motorController(AppConfig::BoardConfig); // Kontroler SimpleFoc
+MotorController motorController(AppConfig::ODrive330KVConfig); // Kontroler SimpleFoc
 SimpleCan* canBusDriver = CreateCanLib(A_CAN_TX, A_CAN_RX); // Zwraca obiekt klasy SimpleCan_STM32G4xx
 RxFromCAN canCommandHandler(&motorController); // Broker komend
 MasterRxFromCAN canStatusHandler; // Odbiornik statusów

@@ -2,8 +2,7 @@
 
 namespace AppConfig {
 
-// Uzupełnij zgodnie z Twoim hardware
-const MotorConfig BoardConfig = {
+const MotorConfig GM2804MotorConfig = {
   
 // PWM U_L, V_L, W_L
 A_PHASE_UL, A_PHASE_VL, A_PHASE_WL,
@@ -37,21 +36,26 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 // Sterowanie
 
 // Velocity
-0.1f, 0.05f, 0.0f, // PID P,I,D
-1000.0f,           // output ramp
-0.01f,             // LPF Tf
-1.0f,              // current_limit [A]
+// 0.1f, 0.05f, 0.0f, // PID P,I,D
+// 1000.0f,           // output ramp
+// 0.01f,             // LPF Tf
+// 1.0f,              // current_limit [A]
+
+0.07f, 0.03f, 0.002f,
+1000.0f,
+0.2f,
+1.0f,
 
 // Torque, Id, Iq
 // I_Q axis
-5.0f, 300.0f, 0.0f, // PID P,I,D, I_q
-50.0f,
-0.01f, // output ramp, LPF Tf
+5.0f, 1000.0f, 0.0f, // PID P,I,D, I_d
+1e6f,  // output ramp
+0.01f, // LPF Tf
 
 // I_D axis
-5.0f, 300.0f, 0.0f, // PID P,I,D, I_d
-100.0f,
-0.01f, // output ramp, LPF Tf
+5.0f, 1000.0f, 0.0f, // PID P,I,D, I_d
+1e6f,  // output ramp
+0.01f, // LPF Tf
 
 // Startowy target
 0.1f              // [rad/s]

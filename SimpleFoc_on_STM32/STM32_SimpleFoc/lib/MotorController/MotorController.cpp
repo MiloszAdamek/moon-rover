@@ -2,13 +2,12 @@
 
 MotorController* MotorController::instance = nullptr;
 
-MotorController::MotorController(const AppConfig::MotorConfig& cfg, float torque_feed_forward)
+MotorController::MotorController(const AppConfig::MotorConfig& cfg)
   : config(cfg),
     motor(cfg.pole_pairs, cfg.phase_resistance, cfg.kv_rating),
     driver(cfg.pwm_u_h, cfg.pwm_u_l, cfg.pwm_v_h, cfg.pwm_v_l, cfg.pwm_w_h, cfg.pwm_w_l),
     current_sense(cfg.shunt_resistance, cfg.amp_gain, cfg.curr_u, cfg.curr_v, cfg.curr_w),
     sensor(cfg.spi3_cs, cfg.bit_resolution, cfg.angle_register),
-    torque_feed_forward(torque_feed_forward),
     spi3(cfg.spi3_mosi, cfg.spi3_miso, cfg.spi3_sck),
     command(Serial)
 {

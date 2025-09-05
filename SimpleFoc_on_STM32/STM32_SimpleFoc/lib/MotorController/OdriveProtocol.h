@@ -20,7 +20,7 @@
 #define CLEAR_ERRORS					0x018
 #define SET_POSITION_GAIN				0x01A
 #define SET_VEL_GAINS					0x01B
-
+#define I_D_CURRENTS					0x01C
 
 //Axis States
 typedef enum {

@@ -93,6 +93,27 @@ void Set_Controller_Modes(Axis Axis, Control_Mode ControlMode, Input_Mode InputM
 	}
 }
 
+void Set_Controller_Modes_ESC1(Axis Axis, Control_Mode ControlMotionMode, Control_Mode TorqueControlMode){
+	Set_TX_Param(Axis.AXIS_ID, SET_CONTROLLER_MODES, FDCAN_STANDARD_ID, FDCAN_DATA_FRAME, FDCAN_DLC_BYTES_8);
+	int MotionControl = ControlMotionMode;
+	int TorqueControl = TorqueControlMode;
+	uint8_t *ptrMotionControl;
+	ptrMotionControl = (uint8_t *)&MotionControl;
+	uint8_t *ptrTorqueControl;
+	ptrTorqueControl = (uint8_t *)&TorqueControl;
+	TxData[0] = ptrMotionControl[0];
+	TxData[1] = ptrMotionControl[1];
+	TxData[2] = ptrMotionControl[2];
+	TxData[3] = ptrMotionControl[3];
+	TxData[4] = ptrTorqueControl[0];
+	TxData[5] = ptrTorqueControl[1];
+	TxData[6] = ptrTorqueControl[2];
+	TxData[7] = ptrTorqueControl[3];
+	if(HAL_FDCAN_AddMessageToTxFifoQ(Axis.hfdcan, &TxHeader, TxData) !=HAL_OK){
+		Serial.println("Failed to send data via CAN, Set_Controller_Modes");
+	}
+}
+
 void Set_Input_Pos(Axis Axis, float Input_Pos, int Vel_FF, int Torque_FF){
 	Set_TX_Param(Axis.AXIS_ID, SET_INPUT_POS, FDCAN_STANDARD_ID, FDCAN_DATA_FRAME, FDCAN_DLC_BYTES_8);
 	uint8_t *ptrPos;
@@ -228,6 +249,7 @@ void ODrive_RX_CallBack(Axis *AXIS,FDCAN_RxHeaderTypeDef* RxHeader, uint8_t* dat
 				AXIS->AXIS_Current_State = data[4];
 				AXIS->Controller_Status = data[5];
 				break;
+
 
 			case ENCODER_ESTIMATES:
 				uint32_t *ptrEncPos;

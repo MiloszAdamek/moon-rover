@@ -13,7 +13,8 @@ const CanNetworkConfig TargetConfig  = SlaveConfig_Node0;
 MotorController motorController(AppConfig::BoardConfig); // Kontroler SimpleFoc
 SimpleCan* canBusDriver = CreateCanLib(A_CAN_TX, A_CAN_RX); // Zwraca obiekt klasy SimpleCan_STM32G4xx
 RxFromCAN canCommandHandler(&motorController); // Broker komend
-CANMotorController canBus(canBusDriver, &canCommandHandler, AppCanConfig.MyNodeId, TargetConfig.MyNodeId); // Logika transmisji
+MasterRxFromCAN canStatusHandler; // Odbiornik statusów
+CANMotorController canBus(canBusDriver, &canStatusHandler, AppCanConfig.MyNodeId, TargetConfig.MyNodeId); // Logika transmisji
 
 // Komenda: T <torque> (np. T0.5)
 void onCmdTorque(char* cmd) {
@@ -25,16 +26,14 @@ void onCmdTorque(char* cmd) {
     canBus.CANSendFloat(torque, can_id);
 }
 
-// Komenda: V <velocity> <torque_ff> (np. V10.0 0.1)
+// Komenda: V <velocity> (np. V10.0)
 void onCmdVel(char* cmd) {
     char* token = strtok(cmd, " ");
     if (!token) return;
     float vel = atof(token);
-    token = strtok(NULL, " ");
-    float torque_ff = (token) ? atof(token) : 0.0f;
     int can_id = PP_MAKE_CAN_ID(TargetConfig.MyNodeId, SET_INPUT_VEL);
-    Serial.printf("TX -> SET_INPUT_VEL to Node %d: vel=%.2f, torque_ff=%.2f\n", TargetConfig.MyNodeId, vel, torque_ff);
-    canBus.CANSendFloat(vel, torque_ff, can_id);
+    Serial.printf("TX -> SET_INPUT_VEL to Node %d: vel=%.2f\n", TargetConfig.MyNodeId, vel);
+    canBus.CANSendFloat(vel, can_id);
 }
 
 // Komenda: P <position> (np. P3.14)
@@ -59,9 +58,9 @@ void onCmdPos(char* cmd) {
 void onCmdMode(char* cmd) {
     char* token = strtok(cmd, " ");
     if (!token) return;
-    float motion_mode = atof(token);
+    int8_t motion_mode = atoi(token);
     token = strtok(NULL, " ");
-    float torque_mode = (token) ? atof(token) : 0.0f;
+    int8_t torque_mode = (token) ? atof(token) : 0.0f;
     int can_id = PP_MAKE_CAN_ID(TargetConfig.MyNodeId, SET_CONTROLLER_MODES);
     Serial.printf("TX -> SET_CONTROLLER_MODES to Node %d: motion_mode=%d, torque_mode=%d\n", TargetConfig.MyNodeId, motion_mode, torque_mode);
     canBus.CANSendInt((int32_t)motion_mode, (int32_t)torque_mode, can_id);
@@ -120,7 +119,7 @@ void setup() {
     Serial.println("Target Node ID: " + String(TargetConfig.MyNodeId));
     Serial.println("Commands (separate with space, e.g., 'V 10.5 0.1'):");
     Serial.println(" T <torque>            (Amps)");
-    Serial.println(" V <velocity> <torque_ff>");
+    Serial.println(" V <velocity>");
     Serial.println(" P <position>");
     Serial.println(" M <motion_mode_id> <torque_mode_id");
     Serial.println(" S <state_id>");
@@ -131,7 +130,7 @@ void setup() {
     canBus.canInit();
     
     motorController.command.add('T', onCmdTorque, "Set Torque");
-    motorController.command.add('V', onCmdVel, "Set Velocity & TorqueFF");
+    motorController.command.add('V', onCmdVel, "Set Velocity");
     motorController.command.add('P', onCmdPos, "Set Position");
     motorController.command.add('M', onCmdMode, "Set Control Mode");
     motorController.command.add('S', onCmdState, "Set Axis State");

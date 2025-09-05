@@ -7,7 +7,7 @@
 
 class MotorController {
 public:
-  explicit MotorController(const AppConfig::MotorConfig& cfg, float torque_feed_forward = 0.0f);
+  explicit MotorController(const AppConfig::MotorConfig& cfg);
 
   void begin();        // wywołaj w setup()
   void update();       // wywołuj w loop() - FOC + sterowanie
@@ -18,7 +18,6 @@ public:
   void setTarget(float target) { motor.target = target; } // Depends on the motor controller mode, this could be position, velocity, or torque
   void setCurrentLimit(float current_limit);
   void setVelocityLimit(float velocity_limit);
-  void setTorqueFF(float torque_ff) { this->torque_feed_forward = torque_ff; }
 
   void changeControlMode(MotionControlType new_mode);
   void changeTorqueControlType(TorqueControlType new_mode);
@@ -77,6 +76,4 @@ private:
 
   // SPI3
   SPIClass spi3;
-
-  float torque_feed_forward;
 };

@@ -1,6 +1,6 @@
-// CANProfile.cpp
+// CanProfile.cpp
 
-#include "CANProfile.h"
+#include "CanProfile.h"
 #include "Config.hpp"
 
 void CANMotorController::canInit() {
@@ -28,34 +28,22 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
 
     int Command = PP_GET_MESSAGE_ID(rxHeader.Identifier);
 
-    // Sprawdzamy, czy mamy handler do obsłużenia komendy
-    if (!pRxCommands) return;
-
     // RTR frames
     if(rxHeader.RxFrameType == CAN_REMOTE_FRAME){
         switch (Command)
         {
-            // To nie jest RTR
-            // case ENCODER_ESTIMATES: {
-            //     pRxCommands->Received_GetEncoderEstimates(Device);
-            //     break;
-            // }
-
             // case GET_ENCODER_COUNT: {
             //     pRxCommands->Received_GetEncoderCount(Device);
             //     break;
             // }
-
             case GET_BUS_VOLTAGE_CURRENT: {
                 pRxCommands->Received_GetBusVoltageCurrent(Device);
                 break;
             }
-
             case GET_IQ: {
                 pRxCommands->Received_GetIQ(Device);
                 break;
             }
-
             default:
                 LOG("CAN RTR from Dev %d: Ignored (unknown command) %d\n", Device, Command);
                 break;
@@ -65,23 +53,18 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
     else{
         switch(Command)
             {
-                case ODRIVE_HEARTBEAT_MESSAGE: break;
-
                 case SET_AXIS_NODE_ID: break;
-
                 case SET_AXIS_REQUESTED_STATE: break;
-
-                case ENCODER_ESTIMATES: break;
-
                 case SET_CONTROLLER_MODES: {
-                    Control_Mode_t motion_control_mode;
-                    Control_Mode_t torque_control_mode;
-                    memcpy(&motion_control_mode, rxData, sizeof(int32_t));
-                    memcpy(&torque_control_mode, rxData + 4, sizeof(int32_t));
-                    pRxCommands->Received_SetControllerModes(Device, motion_control_mode, torque_control_mode);
+                    int32_t motion_mode_raw;
+                    int32_t torque_mode_raw;
+                    memcpy(&motion_mode_raw, rxData, sizeof(int32_t));
+                    memcpy(&torque_mode_raw, rxData + 4, sizeof(int32_t));
+                    Control_Mode_t final_motion_mode = (Control_Mode_t)motion_mode_raw;
+                    Control_Mode_t final_torque_mode = (Control_Mode_t)torque_mode_raw;
+                    pRxCommands->Received_SetControllerModes(Device, final_motion_mode, final_torque_mode);
                     break;
                 }
-
                 case SET_INPUT_POS: {
                     float pos;
                     int16_t vel_ff, torque_ff; // ODrive używa int16 dla FF w tej komendzie
@@ -91,22 +74,18 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
                     pRxCommands->Received_SetInputPos(Device, pos, vel_ff, torque_ff);
                     break;
                 }
-
                 case SET_INPUT_VEL: {
-                    float vel, torque_ff;
+                    float vel;
                     memcpy(&vel, rxData, sizeof(float));
-                    memcpy(&torque_ff, rxData + 4, sizeof(float));
-                    pRxCommands->Received_SetInputVel(Device, vel, torque_ff);
+                    pRxCommands->Received_SetInputVel(Device, vel);
                     break;
                 }
-
                 case SET_INPUT_TORQUE: {
                     float torque;
                     memcpy(&torque, rxData, sizeof(float));
                     pRxCommands->Received_SetInputTorque(Device, torque);
                     break;
                 }
-
                 case SET_LIMITS: {
                     float velocity_limit, current_limit;
                     memcpy(&velocity_limit, rxData, sizeof(float));
@@ -114,25 +93,19 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
                     pRxCommands->Received_SetLimits(Device, velocity_limit, current_limit);
                     break;
                 }
-
                 case GET_IQ: break;
-
                 case REBOOT: {
                     pRxCommands->Received_Reboot(Device);
                     break;
                 }
-
                 case GET_BUS_VOLTAGE_CURRENT: break;
-
                 case CLEAR_ERRORS: break;
-
                 case SET_POSITION_GAIN: {
                     float pos_gain;
                     memcpy(&pos_gain, rxData, sizeof(float));
                     pRxCommands->Received_SetPosGain(Device, pos_gain);
                     break;
                 }
-
                 case SET_VEL_GAINS: {
                     float vel_gain, vel_integrator_gain;
                     memcpy(&vel_gain, rxData, sizeof(float));
@@ -141,6 +114,20 @@ void CANMotorController::HandleCanMessage(const SimpleCanRxHeader rxHeader, cons
                     break;
                 }
 
+                // Master received data frames
+                case ENCODER_ESTIMATES: 
+                    float pos_rad , vel_rad_s;
+                    memcpy(&pos_rad, rxData, sizeof(float));
+                    memcpy(&vel_rad_s, rxData + 4, sizeof(float));
+                    pRxCommands->MasterReceived_EncoderEstimates(Device, pos_rad, vel_rad_s);
+                break;
+                case I_D_CURRENTS: 
+                    float iq_set, iq_meas;
+                    memcpy(&iq_set, rxData, sizeof(float));
+                    memcpy(&iq_meas, rxData + 4, sizeof(float));
+                    pRxCommands->MasterReceived_I_Q_Currents(Device, iq_set, iq_meas);
+                break;
+                case ODRIVE_HEARTBEAT_MESSAGE: break;
                 default:
                     LOG("CAN CMD from Dev %d: Ignored (unknown command) %d\n", Device, Command);
                     break;
@@ -153,10 +140,9 @@ void RxFromCAN::Received_SetInputPos(const int Dev, float pos, int16_t vff, int1
         pMotorController->setTarget(pos);
     }
 }
-void RxFromCAN::Received_SetInputVel(const int Dev, float vel, float tff) {
+void RxFromCAN::Received_SetInputVel(const int Dev, float vel) {
     if (pMotorController && pMotorController->getMotionControlType() == MotionControlType::velocity) {
         pMotorController->setTarget(vel);
-        pMotorController->setTorqueFF(tff);
     }
 }
 void RxFromCAN::Received_SetInputTorque(const int Dev, float torque) {
@@ -211,12 +197,10 @@ void RxFromCAN::Received_SetControllerModes(const int Device, Control_Mode_t mot
         }
         
         if (motion_mode_changed) {
-            
             if (torque_mode_to_set) {
                 // Wywołanie bezpiecznej metody, która resetuje regulatory prądu
                 pMotorController->changeTorqueControlType(new_torque_mode);
             }
-
             pMotorController->changeControlMode(new_motion_mode);
             Serial.printf("CAN CMD from Dev %d: Set Motion Control Mode -> %d, Torque Control Mode -> %d\n", Device, motion_control_mode, torque_control_mode);
         }
@@ -259,7 +243,7 @@ void RxFromCAN::sendEncoderEstimates() {
     float pos_rev = pos_rad / _2PI;
     float vel_rev_s = vel_rad_s / _2PI;
 
-    int can_id = PP_MAKE_CAN_ID(pCanBus->getNodeId(), ENCODER_ESTIMATES);
+    int can_id = PP_MAKE_CAN_ID(pCanBus->getMasterNodeId(), ENCODER_ESTIMATES);
     pCanBus->CANSendFloat(pos_rev, vel_rev_s, can_id);
 }
 
@@ -269,7 +253,8 @@ void RxFromCAN::sendIq() {
     float iq_set = pMotorController->getSetPointI_q();
     float iq_meas = pMotorController->getI_q();
 
-    int can_id = PP_MAKE_CAN_ID(pCanBus->getNodeId(), GET_IQ);
+    int can_id = PP_MAKE_CAN_ID(pCanBus->getMasterNodeId(), I_D_CURRENTS);
+    // LOG("Sending Iq via CAN: Iq_set=%.2f, Iq_meas=%.2f\n", iq_set, iq_meas);
     pCanBus->CANSendFloat(iq_set, iq_meas, can_id);
 }
 
@@ -319,17 +304,6 @@ void RxFromCAN::Received_GetIQ(const int Device) {
         pCanBus->CANSendFloat(iq, iq_set, can_id);
     }
 }
-
-// void RxFromCAN::Received_GetEncoderEstimates(const int Device) {
-//     if (pMotorController && pCanBus) {
-//         float encPos = pMotorController->getShaftAngle();
-//         float encVel = pMotorController->getShaftVelocity();
-//         int response_can_id = PP_MAKE_CAN_ID(Device, GET_ENCODER_COUNT);
-//         pCanBus->CANSendFloat(encPos, encVel, response_can_id);
-
-//         LOG("CAN RTR Response: Sent Encoder Estimates for Dev %d\n", Device);
-//     }
-// }
 
 // void RxFromCAN::Received_GetEncoderCount(const int Device) {
 //     if (pMotorController && pCanBus) {

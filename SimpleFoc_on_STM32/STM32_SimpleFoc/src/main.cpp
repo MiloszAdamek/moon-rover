@@ -67,18 +67,18 @@ void loop() {
   motorController.runCommand();
   canBusDriver->Loop();
     
-  // handleCAN();
+  handleCAN();
 
   // canTest();
 
   // motorController.nonMotorTests();
   // motorController.printCurrentSensor();
 
-  if (millis() - timer_monitor > 1000) {
-   motorController.printMonitoredValues();
-  //  motorController.printCurrentSensor();
-  //  motorController.printEncoder();
-   timer_monitor = millis();
-  }
+  // if (millis() - timer_monitor > 1000) {
+  //  motorController.printMonitoredValues();
+  // //  motorController.printCurrentSensor();
+  // //  motorController.printEncoder();
+  //  timer_monitor = millis();
+  // }
 }
 

@@ -1,4 +1,4 @@
-// CANProfile.h
+// CanProfile.h
 
 #pragma once
 #include "SimpleCAN.h"
@@ -17,7 +17,7 @@ class MotorControllerNotificationsFromCAN
 
         // Sterowanie ruchem
         virtual void Received_SetInputPos(const int Device, float pos, int16_t vel_ff, int16_t torque_ff) = 0;
-        virtual void Received_SetInputVel(const int Device, float vel, float torque_ff) = 0;
+        virtual void Received_SetInputVel(const int Device, float vel) = 0;
         virtual void Received_SetInputTorque(const int Device, float torque) = 0;
 
         // Konfiguracja
@@ -36,6 +36,9 @@ class MotorControllerNotificationsFromCAN
         virtual void Received_GetBusVoltageCurrent(const int Device) = 0;
         virtual void Received_GetIQ(const int Device) = 0;
 
+        // Master-specific functions
+        virtual void MasterReceived_I_Q_Currents(const int Device, float i_q_setpoint, float i_q_measured) {} // Optional for master
+        virtual void MasterReceived_EncoderEstimates(const int Device, float pos, float vel) {} // Optional for master
 };
 
 class CANMotorController : public SimpleCANProfile
@@ -50,9 +53,9 @@ class CANMotorController : public SimpleCANProfile
         }
         void canInit();
         void HandleCanMessage(const SimpleCanRxHeader rxHeader, const uint8_t *rxData) override;
-
         void setNodeId(int id) { this->myNodeId = id; }
         int getNodeId() const { return this->myNodeId; }
+        int getMasterNodeId() const { return this->masterNodeId; }
 
     private:
         MotorControllerNotificationsFromCAN* pRxCommands;
@@ -68,7 +71,7 @@ public:
 
     // Sterowanie ruchem
     void Received_SetInputPos(const int Device, float pos, int16_t vel_ff, int16_t torque_ff) override;
-    void Received_SetInputVel(const int Device, float vel, float torque_ff) override;
+    void Received_SetInputVel(const int Device, float vel) override;
     void Received_SetInputTorque(const int Device, float torque) override;
 
     // Konfiguracja
@@ -95,4 +98,30 @@ public:
 private:
     MotorController* pMotorController;
     CANMotorController* pCanBus = nullptr;
+};
+
+class MasterRxFromCAN : public MotorControllerNotificationsFromCAN
+{
+    public:
+        // --- Implementacje dla komend (puste, ale wymagane przez interfejs) ---
+        // Dodajemy puste ciała funkcji {}, aby spełnić "kontrakt" z klasą bazową.
+        
+        void Received_SetInputPos(const int Device, float pos, int16_t vel_ff, int16_t torque_ff) override {}
+        void Received_SetInputVel(const int Device, float vel) override {}
+        void Received_SetInputTorque(const int Device, float torque) override {}
+        void Received_SetControllerModes(const int Device, Control_Mode_t m, Control_Mode_t t) override {}
+        void Received_SetLimits(const int Device, float v_lim, float c_lim) override {}
+        void Received_SetPosGain(const int Device, float pos_p) override {}
+        void Received_SetVelGains(const int Device, float vel_p, float vel_i) override {}
+        void Received_Reboot(const int Device) override {}
+        void Received_GetBusVoltageCurrent(const int Device) override {}
+        void Received_GetIQ(const int Device) override {}
+
+        void MasterReceived_I_Q_Currents(const int Device, float i_q_setpoint, float i_q_measured) {
+            LOG("CAN Master received Iq from Dev %d: Iq_set=%.2f, Iq_meas=%.2f\n", Device, i_q_setpoint, i_q_measured);
+        }
+
+        void MasterReceived_EncoderEstimates(const int Device, float pos, float vel) {
+            LOG("CAN Master received Encoder Estimates from Dev %d: Pos=%.2f, Vel=%.2f\n", Device, pos, vel);
+        }
 };

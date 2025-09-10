@@ -236,6 +236,7 @@ void RxFromCAN::sendEncoderEstimates() {
     if (!pCanBus || !pMotorController) return;
 
     // Pobierz dane z silnika (w radianach)
+    
     float pos_rad = pMotorController->getAngle();
     float vel_rad_s = pMotorController->getVelocity();
 

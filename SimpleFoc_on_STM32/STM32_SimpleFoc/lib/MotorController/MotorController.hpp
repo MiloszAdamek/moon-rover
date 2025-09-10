@@ -32,9 +32,19 @@ public:
   float getI_d() const { return motor.current.d; } // Meassured current in d axis
   float getSetPointI_q() const { return motor.current_sp; }
 
-  float getVelocity() { return sensor.getVelocity(); }
-  float getAngle() { return sensor.getAngle(); }
-  
+
+  #ifdef AS5048A
+    float getVelocity() { return sensor.getVelocity(); }
+    float getAngle() { return sensor.getAngle(); }
+  #endif
+
+  #ifdef AMT102V
+    float getVelocity() { return encoder.getVelocity(); }
+    float getAngle() { return encoder.getAngle(); }
+    static void doA() { return instance->encoder.handleA(); }
+    static void doB() { return instance->encoder.handleB(); }
+  #endif
+
   float getShaftVelocity() const { return motor.shaft_velocity; } 
   float getShaftAngle() const { return motor.shaft_angle; }
 
@@ -56,6 +66,9 @@ public:
   void printCurrentSensor();
   // Commander
   void motorMonitor() {motor.monitor();}
+
+  void testEncoder();
+
   Commander command;
   
 private:
@@ -74,8 +87,14 @@ private:
   // BLDCDriver3PWM driver;
   BLDCDriver6PWM driver;
   LowsideCurrentSense current_sense;
-  MagneticSensorSPI sensor;
 
-  // SPI3
-  SPIClass spi3;
+  #ifdef AMT102V
+      Encoder encoder;
+  #endif
+
+  #ifdef AS5048A
+    MagneticSensorSPI sensor;
+    SPIClass spi3;
+  #endif
+
 };

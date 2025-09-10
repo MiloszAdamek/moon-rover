@@ -21,7 +21,7 @@ PB5, PB4, PB3, PA15,
 A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 0.003f,          // shunt_resistance
 -64.0f/7.0f,     // amp_gain
-12.0f,            // voltage_sensor_align
+1.0f,            // voltage_sensor_align
 
 // Silnik
 7,          // pole pairs
@@ -31,21 +31,21 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 
 // Driver/Voltage
 18.0f,      // v_supply
-16.0f,      // v_limit
+12.0f,      // v_limit
 20000,      // pwm_frequency [Hz]
 
 // Sterowanie
 
 // Velocity
-// 0.1f, 0.05f, 0.0f, // PID P,I,D
-// 1000.0f,           // output ramp
-// 0.01f,             // LPF Tf
-// 1.0f,              // current_limit [A]
+0.5f, 0.1, 0.0f, // PID P,I,D
+1000.0f,           // output ramp
+0.08f,             // LPF Tf
+5.0f,              // current_limit [A]
 
-0.07f, 0.03f, 0.002f,
-1000.0f,
-0.2f,
-1.0f,
+// 0.5f, 0.1f, 0.001f, // PID P,I,D
+// 300.0f,           // output ramp
+// 0.08f,             // LPF Tf
+// 5.0f,              // current_limit [A]
 
 // Torque, Id, Iq
 // I_Q axis
@@ -59,7 +59,7 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 0.01f, // LPF Tf
 
 // Startowy target
-0.5f              // [rad/s]
+0.5f
 };
 
 } // namespace AppConfig

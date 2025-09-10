@@ -6,12 +6,15 @@
 #include "CANProfile.h"
 
 long timer_monitor = millis();
+const CanNetworkConfig AppCanConfig = SlaveConfig_Node0; // Konfiguracja adresacji magistrali CAN
 
-// Konfiguracja adresacji magistrali CAN
-const CanNetworkConfig AppCanConfig = SlaveConfig_Node0;
+#ifdef GM2804
+  MotorController motorController(AppConfig::GM2804MotorConfig);
+#endif
 
-// MotorController motorController(AppConfig::GM2804MotorConfig); // Kontroler SimpleFoc
-MotorController motorController(AppConfig::ODrive330KVConfig);
+#ifdef ODrive330KV
+  MotorController motorController(AppConfig::ODrive330KVConfig);
+#endif
 
 SimpleCan* canBusDriver = CreateCanLib(A_CAN_TX, A_CAN_RX); // Zwraca obiekt klasy SimpleCan_STM32G4xx
 RxFromCAN canCommandHandler(&motorController); // Broker komend
@@ -65,13 +68,15 @@ void canTest(){
 
 void loop() {
 
+  // motorController.testEncoder();
+
   motorController.update();
   motorController.runCommand();
   canBusDriver->Loop();
 
-  // motorController.motorMonitor();
+  motorController.motorMonitor();
     
-  handleCAN();
+  // handleCAN();
 
   // canTest();
 
@@ -85,4 +90,3 @@ void loop() {
   //  timer_monitor = millis();
   // }
 }
-

@@ -1,4 +1,5 @@
 #include "MotorController.hpp"
+#include "Config.hpp"
 
 MotorController* MotorController::instance = nullptr;
 
@@ -7,8 +8,16 @@ MotorController::MotorController(const AppConfig::MotorConfig& cfg)
     motor(cfg.pole_pairs, cfg.phase_resistance, cfg.kv_rating),
     driver(cfg.pwm_u_h, cfg.pwm_u_l, cfg.pwm_v_h, cfg.pwm_v_l, cfg.pwm_w_h, cfg.pwm_w_l),
     current_sense(cfg.shunt_resistance, cfg.amp_gain, cfg.curr_u, cfg.curr_v, cfg.curr_w),
-    sensor(cfg.spi3_cs, cfg.bit_resolution, cfg.angle_register),
-    spi3(cfg.spi3_mosi, cfg.spi3_miso, cfg.spi3_sck),
+
+    #ifdef AS5048A 
+        sensor(cfg.spi3_cs, cfg.bit_resolution, cfg.angle_register),
+        spi3(cfg.spi3_mosi, cfg.spi3_miso, cfg.spi3_sck),
+    #endif
+        
+    #ifdef AMT102V
+      encoder(A_ENCODER_A, A_ENCODER_B, 2048),
+    #endif
+
     command(Serial)
 {
   instance = this;
@@ -19,11 +28,24 @@ void MotorController::begin() {
   Serial.println("SimpleFOC G431RB: Starting configuration...");
 
   // ENCODER
-  // spi3.begin();
-  // sensor.init(&spi3);
-  // motor.linkSensor(&sensor);
-  // motor.voltage_sensor_align = config.voltage_sensor_align;
-  // Serial.println("Sensor initialized.");
+
+  #ifdef AMT102V
+    encoder.init();
+    encoder.enableInterrupts(doA, doB);
+    motor.linkSensor(&encoder);
+    motor.voltage_sensor_align = config.voltage_sensor_align;
+    Serial.println("Encoder AMT102-V initialized.");
+  #endif
+
+  #ifdef AS5048A
+    spi3.begin();
+    sensor.init(&spi3);
+    motor.linkSensor(&sensor);
+    motor.voltage_sensor_align = config.voltage_sensor_align;
+    Serial.println("Encoder AS5048A initialized.");
+  #endif
+
+  SimpleFOCDebug::enable(&Serial);
 
   // DRIVER
   driver.pwm_frequency = config.pwm_frequency;
@@ -40,12 +62,10 @@ void MotorController::begin() {
   motor.linkCurrentSense(&current_sense);
   Serial.println("Current sense initialized.");
 
-  SimpleFOCDebug::enable(&Serial);
-
   // MOTOR
   motor.torque_controller = TorqueControlType::foc_current;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
-  motor.controller = MotionControlType::velocity_openloop;
+  motor.controller = MotionControlType::velocity;
   motor.init();
 
   // PID / FILTRY / LIMITY
@@ -60,7 +80,7 @@ void MotorController::begin() {
 
   // PID - torque -> Id, Iq
  
-  // Q axis
+  // // Q axis
   motor.PID_current_q.P = config.pid_iq_p;                        
   motor.PID_current_q.I = config.pid_iq_i;                        
   motor.PID_current_q.D = config.pid_iq_d;
@@ -74,8 +94,8 @@ void MotorController::begin() {
   motor.PID_current_d.D = config.pid_id_d;
   motor.PID_current_d.limit = motor.voltage_limit; 
   motor.PID_current_d.output_ramp = config.pid_id_output_ramp;    
-  motor.LPF_current_d.Tf= config.lpf_id_Tf;                       
-
+  motor.LPF_current_d.Tf= config.lpf_id_Tf;             
+  
   // FOC init
   motor.initFOC();
   Serial.println("Motor FOC initialized!");
@@ -106,6 +126,13 @@ void MotorController::update() {
   motor.loopFOC();
   motor.move();
   // motor.monitor(); // opcjonalnie
+}
+
+void MotorController::testEncoder() {
+  instance->motor.sensor->update();
+  Serial.print(instance->motor.sensor->getAngle());
+  Serial.print("\t");
+  Serial.println(instance->motor.sensor->getVelocity());
 }
 
 void MotorController::runCommand() {

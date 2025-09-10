@@ -2,6 +2,8 @@
 
 //*** UART ***
 
+#ifdef GM2804
+
 #ifdef HAL_UART_MODULE_ENABLED
 const PinMap PinMap_UART_TX[] = {
   // {PA_2, LPUART1, STM_PIN_DATA(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF12_LPUART1)},
@@ -18,6 +20,9 @@ const PinMap PinMap_UART_RX[] = {
   {NC, NP, 0}
 };
 #endif
+
+#endif
+
 
 
 //*** SPI ***

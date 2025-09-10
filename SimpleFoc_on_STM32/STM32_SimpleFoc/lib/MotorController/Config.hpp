@@ -1,3 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #pragma once
 #include <Arduino.h>
 
@@ -11,8 +14,18 @@
 // ===              WYBÓR STEROWNIKA BLDC                 ===
 // ==========================================================
 
-#define ESC_TYPE_STM32_ESC1 extern
-// #define ESC_ODRIVE extern
+#define ESC_TYPE_STM32_ESC1
+// #define ESC_ODRIVE
+
+// ==========================================================
+// ===              WYBÓR SILNIKA I ENKODERA              ===
+// ==========================================================
+
+// #define GM2804
+// #define AS5048A
+
+#define ODrive330KV
+#define AMT102V
 
 // ==========================================================
 // ===              KONFIGURACJA CAN                      ===
@@ -102,4 +115,6 @@ extern const MotorConfig ODrive330KVConfig;
     #define LOG(format, ...) Serial.printf(format, ##__VA_ARGS__)
 #else
     #define LOG(format, ...) do {} while (0)
+#endif
+
 #endif

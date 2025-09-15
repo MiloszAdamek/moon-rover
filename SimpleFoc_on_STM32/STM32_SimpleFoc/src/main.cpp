@@ -37,7 +37,7 @@ void handleCAN() {
 
 void setup() {
 
-  canCommandHandler.linkCanBus(&canBus);
+//   canCommandHandler.linkCanBus(&canBus);
 
   Serial.begin(115200);
   while (!Serial);
@@ -85,7 +85,7 @@ void loop() {
 
   // if (millis() - timer_monitor > 1000) {
   //  motorController.printMonitoredValues();
-  // //  motorController.printCurrentSensor();
+  //  motorController.printCurrentSensor();
   // //  motorController.printEncoder();
   //  timer_monitor = millis();
   // }

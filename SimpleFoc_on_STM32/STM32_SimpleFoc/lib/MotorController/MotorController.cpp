@@ -65,7 +65,7 @@ void MotorController::begin() {
   // MOTOR
   motor.torque_controller = TorqueControlType::foc_current;
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
-  motor.controller = MotionControlType::velocity;
+  motor.controller = MotionControlType::torque;
   motor.init();
 
   // PID / FILTRY / LIMITY
@@ -108,7 +108,7 @@ void MotorController::begin() {
 
   // Monitoring (opcjonalnie)
   motor.useMonitoring(Serial);
-  motor.monitor_downsample = 100;
+  motor.monitor_downsample = 1000;
   // motor.monitor_variables = _MON_TARGET | _MON_VEL | _MON_CURR_D | _MON_CURR_Q;
 
   // Commander

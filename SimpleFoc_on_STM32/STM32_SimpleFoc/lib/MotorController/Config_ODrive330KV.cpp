@@ -21,7 +21,7 @@ PB5, PB4, PB3, PA15,
 A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 0.003f,          // shunt_resistance
 -64.0f/7.0f,     // amp_gain
-1.0f,            // voltage_sensor_align
+2.0f,            // voltage_sensor_align
 
 // Silnik
 7,          // pole pairs
@@ -30,8 +30,8 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 0.025f,     // Kt [Nm/A] - stała momentu obrotowego
 
 // Driver/Voltage
-18.0f,      // v_supply
-17.0f,      // v_limit
+15.0f,      // v_supply
+15.0f,      // v_limit
 20000,      // pwm_frequency [Hz]
 
 // Sterowanie
@@ -49,12 +49,15 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 
 // Torque, Id, Iq
 // I_Q axis
-0.5f, 2.0f, 0.01f, // PID P,I,D, I_d
-1e2f,  // output ramp
+0.7f, 4.0f, 0.01f, // PID P,I,D, I_d
+1e3f,  // output ramp
 0.05f, // LPF Tf
-// 40.0f  // output limit
+// 3.0f  // output limit
 
 // I_D axis
+// 0.5f, 2.0f, 0.01f, // PID P,I,D, I_d
+// 1e2f,  // output ramp
+// 0.05f, // LPF Tf
 0.7f, 10.0f, 0.0f, // PID P,I,D, I_d
 1e3f,  // output ramp
 0.08f, // LPF Tf
@@ -64,17 +67,3 @@ A_OP1_OUT, A_OP2_OUT, A_OP3_OUT,
 };
 
 };
-
-
-
-// // Torque, Id, Iq
-// // I_Q axis
-// 1.0f, 5.0f, 0.01f, // PID P,I,D, I_d
-// 1e4f,  // output ramp
-// 0.05f, // LPF Tf
-// // 20.0f  // output limit
-
-// // I_D axis
-// 0.7f, 10.0f, 0.0f, // PID P,I,D, I_d
-// 1e4f,  // output ramp
-// 0.08f, // LPF Tf
